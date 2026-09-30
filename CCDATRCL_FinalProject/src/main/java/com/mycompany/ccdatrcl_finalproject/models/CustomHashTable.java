@@ -140,27 +140,4 @@ public class CustomHashTable {
             }
         }
     }
-
-    // Main method for independent testing
-    public static void main(String[] args) {
-        CustomHashTable hashTable = new CustomHashTable(10);
-
-        Appointment app1 = new Appointment("KGW-001", "Juan", "Laptop", "Lenovo", "IdeaPad 3", "No power", "2026-09-01");
-        Appointment app2 = new Appointment("KGW-002", "Maria", "Washing Machine", "Panasonic", "NA-F70S7", "Spin cycle fail", "2026-09-02");
-        Appointment app3 = new Appointment("KGW-003", "Pedro", "Refrigerator", "Samsung", "RT22", "Not cooling", "2026-09-01");
-
-        // Test Insertion
-        hashTable.put(app1.getId(), app1);
-        hashTable.put(app2.getId(), app2);
-        hashTable.put(app3.getId(), app3);
-
-        // Test Lookup
-        System.out.println("Lookup KGW-002: " + hashTable.get("KGW-002"));
-
-        // Test Removal
-        hashTable.remove("KGW-001");
-        System.out.println("Lookup KGW-001 after removal: " + hashTable.get("KGW-001"));
-
-        hashTable.displayTable();
-    }
 }
