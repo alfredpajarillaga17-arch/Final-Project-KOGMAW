@@ -1,10 +1,5 @@
 package com.mycompany.ccdatrcl_finalproject.models;
 
-/**
- * Custom Hash Table implementation using Separate Chaining for collision resolution.
- * Provides O(1) average time complexity for insertions, lookups, and deletions
- * using the appointment ID (e.g., KGW-001) as the key.
- */
 public class CustomHashTable {
 
     private static class HashNode {
