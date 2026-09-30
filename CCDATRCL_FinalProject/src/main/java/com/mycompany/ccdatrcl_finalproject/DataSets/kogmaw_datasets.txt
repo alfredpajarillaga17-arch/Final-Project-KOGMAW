@@ -1,0 +1,50 @@
+KGW-001|Customer 1|Laptop|Lenovo|IdeaPad 3 15ITL6|Laptop not turning on; no power indicator LED|2026-09-01
+KGW-002|Customer 2|Washing Machine|Panasonic|NA-F70S7|Washer spin cycle not rotating; drain pump warning|2026-09-02
+KGW-003|Customer 3|Refrigerator|Samsung|RT22FARBDSA|Refrigerator compartment not cooling; freezer iced over|2026-09-01
+KGW-004|Customer 4|Air Conditioner|Carrier|Aura Inverter 1.0 HP|AC unit blowing warm air; refrigerant leak check & cleaning|2026-09-11
+KGW-005|Customer 5|Desktop|Custom PC|Ryzen 5 5600 / GTX 1660|No display signal on boot; DRAM error LED on motherboard|2026-09-28
+KGW-006|Customer 6|Android Phone|Samsung|Galaxy A54|Cracked front screen glass replacement|2026-09-04
+KGW-007|Customer 7|Microwave Oven|Panasonic|NN-ST34HM|Unit turns on and spins but does not heat food|2026-09-03
+KGW-008|Customer 8|Television|LG|43-inch UHD Smart TV|Dark screen display; audio working but no backlight|2026-09-10
+KGW-009|Customer 9|Laptop|ASUS|TUF Gaming F15|Overheating and thermal throttling under load|2026-09-05
+KGW-010|Customer 10|Refrigerator|LG|Smart Inverter Dual Door|Compressor humming loudly; uneven temperature control|2026-09-04
+KGW-011|Customer 11|Air Conditioner|Condura|Prime Inverter 1.5 HP|Water dripping constantly from internal fan coil unit|2026-09-25
+KGW-012|Customer 12|Washing Machine|Samsung|WA70H4000SG|Water leaking from bottom during rinse cycle|2026-09-05
+KGW-013|Customer 13|Apple Phone (iPhone)|Apple|iPhone 12|Battery health at 71%; fast battery drain|2026-09-07
+KGW-014|Customer 14|Printer|Epson|EcoTank L3210|Paper jam sensor error; paper feed rollers slipping|2026-09-18
+KGW-015|Customer 15|Electric Fan|Asahi|Heavy Duty Stand Fan|Motor humming but blades not spinning; capacitor replacement|2026-09-06
+KGW-016|Customer 16|Laptop|Acer|Nitro 5 AN515|Internal fan making grinding noise; deep cleaning needed|2026-09-24
+KGW-017|Customer 17|Refrigerator|Condura|Negosyo Inverter|Door gasket rubber seal worn out; cold air escaping|2026-09-03
+KGW-018|Customer 18|Air Conditioner|Daikin|Sensira Inverter 2.0 HP|Error code C9; ambient temperature sensor failure|2026-09-07
+KGW-019|Customer 19|Desktop|Dell|OptiPlex 3080|Blue Screen of Death (BSOD) - CRITICAL_PROCESS_DIED|2026-09-08
+KGW-020|Customer 20|Water Dispenser|Midea|Bottom Load Dispenser|Hot water function non-operational; heating element check|2026-09-05
+KGW-021|Customer 21|Washing Machine|LG|Smart Inverter 8.5kg|Excess vibration during high-speed spinning cycle|2026-09-10
+KGW-022|Customer 22|iPad|Apple|iPad Air (4th Gen)|Lightning charging port loose; intermittent charging|2026-09-18
+KGW-023|Customer 23|Television|TCL|50-inch Android TV|Power board failure; TV does not turn on|2026-09-11
+KGW-024|Customer 24|Air Conditioner|Koppel|Split Type 1.0 HP|Chemical coil cleaning & outdoor unit maintenance|2026-09-11
+KGW-025|Customer 25|Laptop|HP|Pavilion 14|Keyboard keys 'E', 'R', 'T' not responding|2026-09-12
+KGW-026|Customer 26|Refrigerator|Panasonic|Inverter 2-Door 9.5 cu ft|Freezer works fine but lower fresh food cabinet is warm|2026-09-14
+KGW-027|Customer 27|Washing Machine|Whirlpool|Top Load 7kg|Direct drive motor squeaking noise during agitate cycle|2026-09-12
+KGW-028|Customer 28|Android Phone|Xiaomi|Redmi Note 11|Volume buttons stuck down; boot up entering recovery mode|2026-09-13
+KGW-029|Customer 29|Rice Cooker|Tefal|Fuzzy Logic Digital|Heating plate non-responsive; fuse check|2026-09-14
+KGW-030|Customer 30|Air Conditioner|Panasonic|Premium Inverter 1.0 HP|Timer light blinking repeatedly; compressor fail protection|2026-09-12
+KGW-031|Customer 31|Laptop|MSI|GF63 Thin|Broken left display hinge; LCD casing separating|2026-09-16
+KGW-032|Customer 32|Refrigerator|Whirlpool|Single Door Refrigerator|Defrost timer assembly damaged; excessive frost build-up|2026-09-11
+KGW-033|Customer 33|Printer|HP|DeskJet 2775|Black ink printing faded/faint; printhead cleaning required|2026-09-17
+KGW-034|Customer 34|Washing Machine|Sharp|ES-X705|Control panel buttons non-responsive; PCB control repair|2026-09-13
+KGW-035|Customer 35|Air Purifier|Xiaomi|Smart Air Purifier 4|Filter reset indicator stuck; fan motor bearing noise|2026-09-19
+KGW-036|Customer 36|Laptop|Dell|Inspiron 15 3511|Slow OS response; upgrade HDD to 500GB NVMe SSD|2026-09-19
+KGW-037|Customer 37|Air Conditioner|Midea|Window Type 0.75 HP|Excessively noisy fan blower; dirt and debris build-up|2026-09-09
+KGW-038|Customer 38|Android Phone|POCO|X3 Pro|Sudden black screen; dead motherboard issue|2026-09-21
+KGW-039|Customer 39|Refrigerator|Haier|Top Mount Inverter|Cooling fan motor in freezer compartment stopped working|2026-09-22
+KGW-040|Customer 40|Washing Machine|Fujidenzo|Heavy Duty Twin Tub|Wash tub belt loose / motor spinning weak|2026-09-04
+KGW-041|Customer 41|Laptop|Apple|MacBook Air M1|Water spill on keyboard; trackpad non-responsive|2026-09-22
+KGW-042|Customer 42|Induction Cooktop|Kyowa|Single Burner|Error E0 display; pan detection sensor repair|2026-09-23
+KGW-043|Customer 43|Desktop|Custom PC|Core i5-12400F / RTX 3060|Random shutdowns during gameplay; thermal paste replacement|2026-09-05
+KGW-044|Customer 44|Air Conditioner|Samsung|WindFree Inverter 1.5 HP|Remote receiver board unresponsive to control signals|2026-09-15
+KGW-045|Customer 45|Printer|Canon|Pixma G3010|Error code P07 / Waste ink absorber pad full|2026-09-25
+KGW-046|Customer 46|Refrigerator|Fujidenzo|Direct Cool Single Door|Thermostat knob broken; running continuously without stopping|2026-09-08
+KGW-047|Customer 47|Washing Machine|Toshiba|GreatWaves Inverter|Drain valve valve assembly stuck open; water won't hold|2026-09-26
+KGW-048|Customer 48|Laptop|Gigabyte|G5 KC|Thermal repasting (CPU/GPU) and full internal dust cleaning|2026-09-27
+KGW-049|Customer 49|Vacuum Cleaner|Dyson|V8 Cordless|Battery dies within 2 minutes; battery pack replacement|2026-09-11
+KGW-050|Customer 50|Air Conditioner|AUX|Inverter Split Type|Fan motor capacitor blown; outdoor fan blade not turning|2026-09-28
