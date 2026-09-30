@@ -74,29 +74,4 @@ public class CustomGraph {
             System.out.println(node + " connects to: " + adjacencyList.get(node));
         }
     }
-
-    // Main execution method with workflow dataset
-    public static void main(String[] args) {
-        CustomGraph graph = new CustomGraph();
-
-        // Dataset populated from workflow_graph.txt
-        graph.addEdge("Initial Diagnostic", "Disassembly", 15);
-        graph.addEdge("Initial Diagnostic", "Part Ordering", 10);
-        graph.addEdge("Disassembly", "Part Ordering", 15);
-        graph.addEdge("Disassembly", "Cleaning", 10);
-        graph.addEdge("Disassembly", "Component Swap", 5);
-        graph.addEdge("Part Ordering", "Component Swap", 30);
-        graph.addEdge("Cleaning", "Component Swap", 10);
-        graph.addEdge("Cleaning", "Reassembly", 15);
-        graph.addEdge("Component Swap", "Reassembly", 25);
-        graph.addEdge("Component Swap", "Firmware Flash", 5);
-        graph.addEdge("Reassembly", "Firmware Flash", 10);
-        graph.addEdge("Reassembly", "Stress Test", 5);
-        graph.addEdge("Firmware Flash", "Stress Test", 45);
-        graph.addEdge("Stress Test", "Final QA", 20);
-        graph.addEdge("Final QA", "Ready for Pickup", 5);
-
-        graph.displayGraph();
-        graph.bfs("Initial Diagnostic");
-    }
 }
