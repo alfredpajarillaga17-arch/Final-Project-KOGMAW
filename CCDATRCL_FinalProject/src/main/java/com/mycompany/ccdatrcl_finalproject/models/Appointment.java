@@ -1,7 +1,5 @@
 package com.mycompany.ccdatrcl_finalproject.models;
 
-import java.time.LocalDate;
-
 public class Appointment {;
     private String id;
     private String customerName;

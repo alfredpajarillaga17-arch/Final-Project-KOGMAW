@@ -1,0 +1,15 @@
+Initial Diagnostic|Disassembly|15
+Initial Diagnostic|Part Ordering|10
+Disassembly|Part Ordering|15
+Disassembly|Cleaning|10
+Disassembly|Component Swap|5
+Part Ordering|Component Swap|30
+Cleaning|Component Swap|10
+Cleaning|Reassembly|15
+Component Swap|Reassembly|25
+Component Swap|Firmware Flash|5
+Reassembly|Firmware Flash|10
+Reassembly|Stress Test|5
+Firmware Flash|Stress Test|45
+Stress Test|Final QA|20
+Final QA|Ready for Pickup|5
