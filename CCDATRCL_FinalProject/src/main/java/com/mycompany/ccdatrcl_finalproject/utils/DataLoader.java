@@ -49,5 +49,20 @@ public class DataLoader {
 
             return appointmentList;
         }
+         public static Appointment[] generateSyntheticData(int size) {
+            Appointment[] syntheticData = new Appointment[size];
+            for (int i = 0; i < size; i++) {
+                String id = String.format("A%04d", i + 1);
+                String customerName = "Customer" + (i + 1);
+                String deviceType = "DeviceType" + ((i % 5) + 1);
+                String brand = "Brand" + ((i % 3) + 1);
+                String model = "Model" + ((i % 4) + 1);
+                String reportedIssue = "Issue" + ((i % 6) + 1);
+                String appointmentDate = LocalDate.now().plusDays(i % 30).toString();
+
+                syntheticData[i] = new Appointment(id, customerName, deviceType, brand, model, reportedIssue, appointmentDate);
+            }
+            return syntheticData;
+        }
 }
 
