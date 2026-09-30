@@ -74,3 +74,4 @@ public class CustomGraph {
             System.out.println(node + " connects to: " + adjacencyList.get(node));
         }
     }
+}
