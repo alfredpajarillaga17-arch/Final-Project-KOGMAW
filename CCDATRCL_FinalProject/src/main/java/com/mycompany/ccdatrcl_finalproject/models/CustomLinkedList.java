@@ -44,7 +44,7 @@ public class CustomLinkedList {
         while (current.next != null) {
             if (current.next.data.getId().equals(appointmentId)) {
                 // Unlink the target node from the chain
-                current.next = current.next; 
+                current.next = current.next.next; 
                 return true;
             }
             current = current.next;

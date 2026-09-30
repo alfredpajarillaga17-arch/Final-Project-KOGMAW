@@ -33,18 +33,6 @@
                 appointments[minIdx] = appointments[i];
                 appointments[i] = temp;  
             }
-        }
-        public static void insertionSortById(Appointment[] appointments) {
-            int n = appointments.length;
-            for (int i = 1; i < n; i++) {
-                Appointment key = appointments[i];
-                int j = i - 1;
-                while (j >= 0 && appointments[j] != null && key != null &&
-                          appointments[j].getId().compareTo(key.getId()) > 0) {
-                            appointments[j + 1] = appointments[j];
-                            j--;
-                          }
-                          appointments[j + 1] = key;
-            }
-        }
+        } 
     }
+    
