@@ -2,15 +2,12 @@ package com.mycompany.ccdatrcl_finalproject.models;
 
 import java.util.*;
 
-/**
- * Custom Graph structure using an Adjacency List.
- * Represents delivery locations or repair dependency networks between service hubs/devices.
- */
 public class CustomGraph {
 
+    // Inner class representing a weighted edge between workflow stages
     private static class Edge {
         String destination;
-        int weight; // Distance in kilometers or cost factor
+        int weight; // Duration/time in minutes or steps
 
         public Edge(String destination, int weight) {
             this.destination = destination;
@@ -19,7 +16,7 @@ public class CustomGraph {
 
         @Override
         public String toString() {
-            return destination + " (" + weight + " km)";
+            return destination + " (" + weight + " mins)";
         }
     }
 
@@ -29,29 +26,23 @@ public class CustomGraph {
         this.adjacencyList = new HashMap<>();
     }
 
-    /**
-     * Adds a location/hub vertex to the graph.
-     */
+    // Add new stage/vertex to the graph
     public void addVertex(String location) {
         adjacencyList.putIfAbsent(location, new ArrayList<>());
     }
 
-    /**
-     * Adds a bi-directional (undirected) road/connection between two locations with a weight.
-     */
+    // Add undirected weighted edge between two workflow stages
     public void addEdge(String source, String destination, int weight) {
         addVertex(source);
         addVertex(destination);
         adjacencyList.get(source).add(new Edge(destination, weight));
-        adjacencyList.get(destination).add(new Edge(source, weight)); // Undirected
+        adjacencyList.get(destination).add(new Edge(source, weight));
     }
 
-    /**
-     * Performs a Breadth-First Search (BFS) to explore network reachability starting from a root location.
-     */
+    // Execute Breadth-First Search (BFS) traversal
     public void bfs(String startLocation) {
         if (!adjacencyList.containsKey(startLocation)) {
-            System.out.println("Location " + startLocation + " does not exist in the graph.");
+            System.out.println("Stage " + startLocation + " does not exist in the graph.");
             return;
         }
 
@@ -76,31 +67,36 @@ public class CustomGraph {
         System.out.println("END");
     }
 
-    /**
-     * Displays the complete adjacency list representation of the graph.
-     */
+    // Display complete graph adjacency structure
     public void displayGraph() {
-        System.out.println("\n--- Service Delivery & Location Graph ---");
+        System.out.println("\n--- Technical Repair Workflow Graph ---");
         for (String node : adjacencyList.keySet()) {
             System.out.println(node + " connects to: " + adjacencyList.get(node));
         }
     }
 
-    // Main method for independent testing
+    // Main execution method with workflow dataset
     public static void main(String[] args) {
         CustomGraph graph = new CustomGraph();
 
-        // Build a sample delivery location network (e.g., Clark / Pampanga hubs)
-        graph.addEdge("Main Workshop (Clark)", "Hub A (Angeles)", 10);
-        graph.addEdge("Main Workshop (Clark)", "Hub B (Mabalacat)", 7);
-        graph.addEdge("Hub A (Angeles)", "Hub C (San Fernando)", 15);
-        graph.addEdge("Hub B (Mabalacat)", "Hub D (Bamban)", 12);
-        graph.addEdge("Hub C (San Fernando)", "Hub D (Bamban)", 25);
+        // Dataset populated from workflow_graph.txt
+        graph.addEdge("Initial Diagnostic", "Disassembly", 15);
+        graph.addEdge("Initial Diagnostic", "Part Ordering", 10);
+        graph.addEdge("Disassembly", "Part Ordering", 15);
+        graph.addEdge("Disassembly", "Cleaning", 10);
+        graph.addEdge("Disassembly", "Component Swap", 5);
+        graph.addEdge("Part Ordering", "Component Swap", 30);
+        graph.addEdge("Cleaning", "Component Swap", 10);
+        graph.addEdge("Cleaning", "Reassembly", 15);
+        graph.addEdge("Component Swap", "Reassembly", 25);
+        graph.addEdge("Component Swap", "Firmware Flash", 5);
+        graph.addEdge("Reassembly", "Firmware Flash", 10);
+        graph.addEdge("Reassembly", "Stress Test", 5);
+        graph.addEdge("Firmware Flash", "Stress Test", 45);
+        graph.addEdge("Stress Test", "Final QA", 20);
+        graph.addEdge("Final QA", "Ready for Pickup", 5);
 
-        // Display Network
         graph.displayGraph();
-
-        // Test BFS Traversal
-        graph.bfs("Main Workshop (Clark)");
+        graph.bfs("Initial Diagnostic");
     }
 }
