@@ -1,6 +1,6 @@
 package com.mycompany.ccdatrcl_finalproject.models;
 
-public class Appointment {;
+public class Appointment {
     private String id;
     private String customerName;
     private String deviceType;
