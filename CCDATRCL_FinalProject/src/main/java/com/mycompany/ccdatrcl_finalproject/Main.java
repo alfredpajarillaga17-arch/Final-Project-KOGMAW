@@ -15,7 +15,7 @@ public class Main {
 
         // 1. Load data dynamically from your text file dataset
         // (Make sure your file is in the CCDATRCL_FinalProject root folder)
-        String filePath = "kogmaw_datasets.txt";
+        String filePath = "CCDATRCL_FinalProject/kogmaw_datasets.txt";
         
         long startTime = System.nanoTime();
         CustomLinkedList loadedList = DataLoader.loadAppointments(filePath);
