@@ -1,10 +1,10 @@
-package com.mycompany.ccdatrcl_finalproject;                    
+package com.mycompany.ccdatrcl_finalproject;
 
+
+import com.mycompany.ccdatrcl_finalproject.models.*;
 import com.mycompany.ccdatrcl_finalproject.utils.DataLoader;
+import com.mycompany.ccdatrcl_finalproject.models.CustomBST;
 import com.mycompany.ccdatrcl_finalproject.models.Appointment;
-import com.mycompany.ccdatrcl_finalproject.models.CustomLinkedList;
-import com.mycompany.ccdatrcl_finalproject.models.CustomQueue;
-import com.mycompany.ccdatrcl_finalproject.models.CustomStack;
 
 public class Main {
 
@@ -68,5 +68,28 @@ public class Main {
         System.out.println("\n==================================================");
         System.out.println("=== DATASET INTEGRATION TEST PASSED SUCCESSFULLY ===");
         System.out.println("==================================================");
+
+        // ==========================================
+        // BINARY SEARCH TREE TEST OUTPUTS
+        // ==========================================
+
+        CustomBST bst = new CustomBST();
+
+        CustomLinkedList.Node current = loadedList.getHead();
+
+        while (current != null) {
+            bst.insert(current.data);
+            current = current.next;
+        }
+
+        bst.inOrder();
+
     }
+
 }
+
+
+
+
+
+

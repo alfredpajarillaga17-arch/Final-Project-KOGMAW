@@ -2,6 +2,10 @@ package com.mycompany.ccdatrcl_finalproject.models;
 
 public class CustomLinkedList {
 
+    public Node getHead() {
+        return head;
+    }
+
     public static class Node {
         public Appointment data;
         public Node next; // Pointer to the next node in memory
