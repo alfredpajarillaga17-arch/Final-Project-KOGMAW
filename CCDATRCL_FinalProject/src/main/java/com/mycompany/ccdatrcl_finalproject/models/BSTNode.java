@@ -1,6 +1,6 @@
 package com.mycompany.ccdatrcl_finalproject.models;
 
-//DI KO ALAM PERO ITO YUNG STRUCTURE NG TREE
+//DI KO ALAM PERO ITO YUNG STRUCTURE NG TREEss
 
 public class BSTNode {
     public Appointment data;
