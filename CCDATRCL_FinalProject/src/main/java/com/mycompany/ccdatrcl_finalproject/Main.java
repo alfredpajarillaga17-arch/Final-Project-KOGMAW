@@ -1,165 +1,46 @@
 package com.mycompany.ccdatrcl_finalproject;
 
-import com.mycompany.ccdatrcl_finalproject.models.*;
-import com.mycompany.ccdatrcl_finalproject.utils.DataLoader;
-
-import java.util.Scanner;
+import com.mycompany.ccdatrcl_finalproject.models.Appointment;
+import com.mycompany.ccdatrcl_finalproject.models.CustomHeap;
 
 public class Main {
-
     public static void main(String[] args) {
         System.out.println("==================================================");
-        System.out.println("=== KOGMAW DATASET & DATA STRUCTURES BENCHMARK ===");
-        System.out.println("==================================================");
+        System.out.println("    K.O.G.M.A.W. - Custom Heap Testing Module     ");
+        System.out.println("==================================================\n");
 
-        // 1. Load data dynamically from your text file dataset
-        // (Make sure your file is in the CCDATRCL_FinalProject root folder)
+        // Initialize the heap with a small capacity (3) to test dynamic resizing
+        CustomHeap priorityQueue = new CustomHeap(3);
 
-        long startTime = System.nanoTime();
-        CustomLinkedList loadedList = DataLoader.loadAppointments("CCDATRCL_FinalProject/kogmaw_datasets.txt");
-        long endTime = System.nanoTime();
+        // Create sample appointments with out-of-order dates
+        Appointment app1 = new Appointment("KGW-001", "Ivan Briones", "Laptop", "Lenovo", "IdeaPad", "Keyboard broken", "2026-11-15");
+        Appointment app2 = new Appointment("KGW-002", "Carl Dairo", "Phone", "Samsung", "S22", "Screen cracked", "2026-10-01"); // Earliest date
+        Appointment app3 = new Appointment("KGW-003", "Darginawin Degollacion", "Tablet", "Apple", "iPad", "Battery drains", "2026-11-20");
+        Appointment app4 = new Appointment("KGW-004", "Jhon Ravene Fiel", "Desktop", "ASRock", "Custom", "No POST", "2026-10-15");
+        Appointment app5 = new Appointment("KGW-005", "Kier Paras", "Laptop", "Dell", "XPS", "Overheating", "2026-10-05");
 
-        System.out.println("File loading time: " + (endTime - startTime) / 1_000_000 + " ms");
+        System.out.println("Inserting incoming repair tickets...");
+        priorityQueue.insert(app1);
+        priorityQueue.insert(app2);
+        priorityQueue.insert(app3);
+        priorityQueue.insert(app4); // Triggers array resizing
+        priorityQueue.insert(app5);
 
-        // Verify if data was actually loaded
-        Appointment sampleApp = loadedList.search("KGW-001");
-        if (sampleApp == null) {
-            System.err.println("[Error] No records found. Check file path or formatting.");
-            return;
+        System.out.println("\nTotal tickets in Priority Queue: " + priorityQueue.getSize());
+        
+        Appointment nextUrgent = priorityQueue.peekUrgent();
+        System.out.println("Next Urgent Ticket to Process: " + nextUrgent.getId() + " scheduled for " + nextUrgent.getAppointmentDate());
+
+        System.out.println("\n--- Extracting Tickets (Should output in chronological order) ---");
+        
+        // Extract all items until the heap is empty
+        while (!priorityQueue.isEmpty()) {
+            Appointment processed = priorityQueue.extractUrgent();
+            System.out.println("Processing -> Date: " + processed.getAppointmentDate() + 
+                               " | ID: " + processed.getId() + 
+                               " | Customer: " + processed.getCustomerName());
         }
 
-        // ==========================================
-        // 2. TEST POPULATING QUEUE, STACK, & HASH TABLE
-        // ==========================================
-        System.out.println("\n--- [Benchmark] Populating Custom Structures ---");
-
-        CustomQueue repairQueue = new CustomQueue();
-        CustomStack actionStack = new CustomStack();
-
-        // We can traverse or simulate pushing items from our loaded data
-        // For demonstration, let's test with the first few records or loop through them
-        System.out.println("Initializing structures with dataset records...");
-
-        // Let's test a targeted lookup using the Hash Table
-        Appointment target = loadedList.search("KGW-042"); // Searching for an ID in the dataset
-        if (target != null) {
-            repairQueue.enqueue(target);
-            actionStack.push(target);
-        }
-
-        // ==========================================
-        // 3. VERIFY OPERATIONS
-        // ==========================================
-
-        System.out.println("\n--- [Verification] Testing FIFO Queue Peak ---");
-        Appointment queueNext = repairQueue.peek();
-        if (queueNext != null) {
-            System.out.println("Next in Queue Service List: " + queueNext.getId());
-        }
-
-        System.out.println("\n--- [Verification] Testing LIFO Stack Peak ---");
-        Appointment stackTop = actionStack.peek();
-        if (stackTop != null) {
-            System.out.println("Most Recent Action on Stack: " + stackTop.getId());
-        }
-
-        System.out.println("\n==================================================");
-        System.out.println("=== DATASET INTEGRATION TEST PASSED SUCCESSFULLY ===");
-        System.out.println("==================================================");
-
-        // ==========================================
-        // BINARY SEARCH TREE TEST OUTPUTS
-        // ==========================================
-        CustomBST bst = new CustomBST();
-
-        CustomLinkedList.Node current = loadedList.getHead();
-
-        while (current != null) {
-            bst.insert(current.data);
-            current = current.next;
-        }
-
-        bst.inOrder();
-
-        // ==========================================
-        // SEARCH & DELETE FUNCTIONALITY TEST
-        // ==========================================
-
-        Scanner s = new Scanner(System.in);
-
-        while (true) {
-            System.out.println("\n--- [BST Operations] Search or Delete ---");
-            System.out.println("Type 'exit' to quit.");
-
-            System.out.print("What to do? (search/delete/exit): ");
-            String sOrDInput = s.nextLine().toLowerCase().trim();
-
-            if (sOrDInput.equals("search")) {
-                String search = "";
-
-                while (true) {
-
-                    System.out.println();
-                    System.out.print("Search: "); // pangutan on ang user kung unsa ang ID nga gusto niya i-search
-                    search = s.nextLine().toUpperCase();
-                    search = search.trim(); // i-trim ang input para walay leading or trailing spaces
-
-                    if (search.equalsIgnoreCase("back")) {
-                        System.out.println("Returning to BST Operations...");
-                        break;
-                    }
-
-                    if (search.equalsIgnoreCase("exit")) {
-                        System.out.println("Exiting search...");
-                        break;
-                    }
-
-                    Appointment found = bst.search(search); // nya i-butang diri ang result sa search function sa BST
-
-                    if (found != null) {
-                        System.out.println("Found Appointment: " + found);
-                    } else {
-                        System.out.println("Appointment not found.");
-                    }
-
-                }
-            } else if (sOrDInput.equals("delete")) {
-                String delete = "";
-
-                while (true) {
-
-                    System.out.println();
-                    System.out.print("Delete: "); // pangutan on ang user kung unsa ang ID nga gusto niya i-delete
-                    delete = s.nextLine().toUpperCase();
-                    delete = delete.trim(); // i-trim ang input para walay leading or trailing spaces
-
-                    if (delete.equalsIgnoreCase("back")) {
-                        System.out.println("Returning to BST Operations...");
-                        break;
-                    }
-
-                    if (delete.equalsIgnoreCase("exit")) {
-                        System.out.println("Exiting delete...");
-                        break;
-                    }
-
-                    Appointment found = bst.search(delete); // nya i-butang diri ang result sa search function sa BST
-
-                    if (found != null) {
-                        bst.delete(delete); // kung makit-an, i-delete niya ang appointment gikan sa BST
-                        System.out.println("Deleted Appointment: " + found);
-                    } else {
-                        System.out.println("Appointment not found.");
-                    }
-
-                }
-            } else if (sOrDInput.equals("exit")) {
-                System.out.println("Exiting...");
-            } else {
-                System.out.println("Invalid input. Please type 'search', 'delete', or 'exit'.");
-            }
-
-        }
+        System.out.println("\nAll urgent tickets processed. Heap is empty: " + priorityQueue.isEmpty());
     }
-
 }

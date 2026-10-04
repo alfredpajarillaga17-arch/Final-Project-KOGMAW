@@ -64,10 +64,6 @@ public class CustomBST {
 
     }
 
-    // ==========================================================
-    // SEARCH TODO WALA PANG SEARCH
-    // ==========================================================
-
     public Appointment search(String id) {
         return search(root, id);
     }
@@ -91,10 +87,6 @@ public class CustomBST {
             return search(node.right, id); // Search in the right subtree
         }
     }
-
-    // ==========================================================
-    // DELETE TODO WALA PANG DELETE
-    // ==========================================================
 
     public void delete(String id) {
         root = delete(root, id);
