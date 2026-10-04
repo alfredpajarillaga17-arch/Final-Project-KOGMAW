@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.mycompany.ccdatrcl_finalproject.models;
 
 import java.util.Arrays;
@@ -222,4 +221,3 @@ public class CustomHeap {
         return Arrays.copyOf(heap, size);
     }
 }
->>>>>>> bd20fff808ea4a491177fa07a1904cfc76c8eb75
