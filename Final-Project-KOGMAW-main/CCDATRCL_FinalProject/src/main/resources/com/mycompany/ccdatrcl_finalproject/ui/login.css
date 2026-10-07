@@ -1,0 +1,24 @@
+#bg {
+    -fx-background-color: linear-gradient(from 0.0% 0.0% to 100.0% 100.0%, #ffffffbd 0.0%, #090042 27.1053%, #744c95 55.7895%, #ffe298 100.0%);
+
+}
+
+#ktitle {
+    -fx-text-fill: linear-gradient(from 90.0% 100.0% to 0.0% 0.0%, #000000 0.0%, #807e7e 50.7895%, #000000 100.0%);
+
+
+}
+
+#ufield {
+    -fx-font-family: "Poppins"
+}
+
+#passwordField {
+    -fx-font-family: "Poppins"
+}
+
+#logbut {
+    -fx-font-family: "Poppins";
+    -fx-background-color: #d896ec;
+}
+
