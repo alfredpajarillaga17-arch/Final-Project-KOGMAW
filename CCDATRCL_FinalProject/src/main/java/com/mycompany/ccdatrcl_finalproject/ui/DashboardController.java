@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import com.mycompany.ccdatrcl_finalproject.App;
 import com.mycompany.ccdatrcl_finalproject.models.Appointment;
 import com.mycompany.ccdatrcl_finalproject.utils.DataManager;
 import com.mycompany.ccdatrcl_finalproject.utils.DatabaseConnection;
 import com.mycompany.ccdatrcl_finalproject.utils.SortingAlgorithms;
 
+import javafx.animation.FadeTransition;
+import javafx.util.Duration;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,6 +27,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class DashboardController {
@@ -118,6 +122,7 @@ public class DashboardController {
         searchView.setVisible(false);
         dashboardView.toFront();
         refreshTableData();
+        fadeIn(dashboardView);
     }
 
     @FXML
@@ -126,6 +131,7 @@ public class DashboardController {
         createApptView.setVisible(true);
         searchView.setVisible(false);
         createApptView.toFront();
+        fadeIn(createApptView);
     }
 
     @FXML
@@ -134,21 +140,25 @@ public class DashboardController {
         createApptView.setVisible(false);
         searchView.setVisible(true);
         searchView.toFront();
+        fadeIn(searchView);
     }
 
     @FXML
     private void handleLogout(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/ccdatrcl_finalproject/ui/login.fxml"));
-            Scene loginScene = new Scene(loader.load(), 600, 400);
-            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            currentStage.setTitle("K.O.G.M.A.W. - Login");
-            currentStage.setScene(loginScene);
-            currentStage.centerOnScreen();
-            currentStage.show();
+            // Always return to the public welcome screen, not the admin login.
+            App.setRoot("/com/mycompany/ccdatrcl_finalproject/ui/landing");
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void fadeIn(Node node) {
+        node.setOpacity(0);
+        FadeTransition fade = new FadeTransition(Duration.millis(320), node);
+        fade.setFromValue(0);
+        fade.setToValue(1);
+        fade.play();
     }
 
     private String generateRandomTicketId() {

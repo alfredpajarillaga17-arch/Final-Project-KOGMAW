@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.animation.FadeTransition;
+import javafx.util.Duration;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -14,22 +16,23 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        // Initialize the first scene using the Login.fxml file
-        scene = new Scene(loadFXML("/com/mycompany/ccdatrcl_finalproject/ui/login"), 600, 400);
-        
-        // Set the window title for the gadget maintenance system
-        stage.setTitle("K.O.G.M.A.W. - System Login");
+        scene = new Scene(loadFXML("/com/mycompany/ccdatrcl_finalproject/ui/landing"), 1125, 829);
+
+        stage.setTitle("K.O.G.M.A.W");
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
     }
 
-    /**
-     * Call this method from your controllers to switch screens.
-     * Example: App.setRoot("/com/mycompany/ccdatrcl_finalproject/ui/Dashboard");
-     */
     public static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
+        Parent nextRoot = loadFXML(fxml);
+        nextRoot.setOpacity(0);
+        scene.setRoot(nextRoot);
+
+        FadeTransition fade = new FadeTransition(Duration.millis(420), nextRoot);
+        fade.setFromValue(0);
+        fade.setToValue(1);
+        fade.play();
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
