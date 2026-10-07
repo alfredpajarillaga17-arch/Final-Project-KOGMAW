@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.mycompany.ccdatrcl_finalproject.ui.DashboardController"
+            styleClass="admin-root"
+            stylesheets="@customer.css">
+
+    <left>
+        <VBox prefWidth="210" spacing="8" styleClass="admin-sidebar">
+            <children>
+                <VBox spacing="2" styleClass="brand-block">
+                    <Label text="KOGMAW" styleClass="admin-brand"/>
+                    <Label text="ADMIN WORKSPACE" styleClass="admin-brand-sub"/>
+                </VBox>
+
+                <Button maxWidth="Infinity" text="Dashboard" onAction="#showDashboardView"
+                        styleClass="side-button"/>
+                <Button maxWidth="Infinity" text="Book Appointment" onAction="#showCreateApptView"
+                        styleClass="side-button"/>
+                <Button maxWidth="Infinity" text="Search Ticket" onAction="#showSearchView"
+                        styleClass="side-button"/>
+
+                <Region VBox.vgrow="ALWAYS"/>
+
+                <Button maxWidth="Infinity" text="Logout" onAction="#handleLogout"
+                        styleClass="side-button logout-button"/>
+            </children>
+            <padding>
+                <Insets top="26" right="16" bottom="20" left="16"/>
+            </padding>
+        </VBox>
+    </left>
+
+    <center>
+        <StackPane styleClass="admin-content">
+            <children>
+
+                <VBox fx:id="dashboardView" spacing="14" styleClass="admin-card">
+                    <children>
+                        <VBox spacing="3">
+                            <Label text="Active Repair Dashboard" styleClass="admin-page-title"/>
+                            <Label text="Monitor current appointments and repair progress."
+                                   styleClass="admin-page-subtitle"/>
+                        </VBox>
+
+                        <TableView fx:id="recordsTable" VBox.vgrow="ALWAYS" styleClass="admin-table">
+                            <columns>
+                                <TableColumn fx:id="colId" text="Ticket ID" prefWidth="92"/>
+                                <TableColumn fx:id="colName" text="Customer Name" prefWidth="130"/>
+                                <TableColumn fx:id="colContactNumber" text="Contact" prefWidth="115"/>
+                                <TableColumn fx:id="colDevice" text="Device" prefWidth="105"/>
+                                <TableColumn fx:id="colBrand" text="Brand" prefWidth="100"/>
+                                <TableColumn fx:id="colModel" text="Model" prefWidth="105"/>
+                                <TableColumn fx:id="colIssue" text="Issue" prefWidth="135"/>
+                                <TableColumn fx:id="colDate" text="Date" prefWidth="105"/>
+                                <TableColumn fx:id="colPhase" text="Phase" prefWidth="120"/>
+                            </columns>
+                        </TableView>
+
+                        <FlowPane hgap="8" vgap="8" styleClass="tool-row">
+                            <children>
+                                <Button text="Process Next" onAction="#handleProcessNextTicket" styleClass="admin-action-button"/>
+                                <Button text="Undo Last" onAction="#handleUndoLastEntry" styleClass="admin-action-button"/>
+                                <Button text="Map BFS" onAction="#handleCheckWorkflowSteps" styleClass="admin-action-button"/>
+                                <Button text="Map DFS" onAction="#handleCheckWorkflowStepsDFS" styleClass="admin-action-button"/>
+                                <Button text="Sort (Date)" onAction="#handleSortByDate" styleClass="admin-action-button"/>
+                                <Button text="Sort (Name)" onAction="#handleSortByName" styleClass="admin-action-button"/>
+                                <Button text="Export Log" onAction="#handleExportHistoryLog" styleClass="admin-action-button"/>
+                            </children>
+                        </FlowPane>
+                    </children>
+                </VBox>
+
+                <VBox fx:id="createApptView" spacing="16" visible="false" styleClass="admin-card">
+                    <children>
+                        <VBox spacing="3">
+                            <Label text="Create Appointment" styleClass="admin-page-title"/>
+                            <Label text="Add a repair ticket directly from the admin workspace."
+                                   styleClass="admin-page-subtitle"/>
+                        </VBox>
+
+                        <GridPane hgap="18" vgap="12" maxWidth="760" styleClass="admin-form-grid">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="50"/>
+                                <ColumnConstraints percentWidth="50"/>
+                            </columnConstraints>
+                            <children>
+                                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                    <Label text="Customer Name" styleClass="admin-form-label"/>
+                                    <TextField fx:id="customerNameField" promptText="Customer name" styleClass="admin-field"/>
+                                </VBox>
+                                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                    <Label text="Contact Number" styleClass="admin-form-label"/>
+                                    <TextField fx:id="contactNumberField" promptText="0912 345 6789" styleClass="admin-field"/>
+                                </VBox>
+                                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                    <Label text="Device Type" styleClass="admin-form-label"/>
+                                    <ComboBox fx:id="deviceCombo" maxWidth="Infinity" styleClass="admin-field"/>
+                                </VBox>
+                                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <Label text="Brand" styleClass="admin-form-label"/>
+                                    <TextField fx:id="brandField" promptText="Device brand" styleClass="admin-field"/>
+                                </VBox>
+                                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                    <Label text="Model" styleClass="admin-form-label"/>
+                                    <TextField fx:id="modelField" promptText="Device model" styleClass="admin-field"/>
+                                </VBox>
+                                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                    <Label text="Reported Issue" styleClass="admin-form-label"/>
+                                    <TextField fx:id="issueField" promptText="Describe the issue" styleClass="admin-field"/>
+                                </VBox>
+                                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                                    <Label text="Initial Phase" styleClass="admin-form-label"/>
+                                    <ComboBox fx:id="phaseCombo" maxWidth="Infinity" styleClass="admin-field"/>
+                                </VBox>
+                            </children>
+                        </GridPane>
+
+                        <HBox alignment="CENTER_RIGHT" spacing="10">
+                            <Button text="Save Appointment" onAction="#handleSaveAppointment"
+                                    styleClass="admin-primary-button"/>
+                        </HBox>
+                    </children>
+                </VBox>
+
+                <VBox fx:id="searchView" spacing="16" visible="false" styleClass="admin-card">
+                    <children>
+                        <VBox spacing="3">
+                            <Label text="Search &amp; Update Ticket" styleClass="admin-page-title"/>
+                            <Label text="Find a ticket and update its current repair phase."
+                                   styleClass="admin-page-subtitle"/>
+                        </VBox>
+
+                        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="search-bar">
+                            <TextField fx:id="searchIdField" prefWidth="320" promptText="Enter KGW-XXXX"
+                                       styleClass="admin-field"/>
+                            <Button text="Search" onAction="#handleSearch" styleClass="admin-primary-button"/>
+                        </HBox>
+
+                        <VBox spacing="12" styleClass="result-card">
+                            <Label fx:id="searchResultName" text="Name: " styleClass="result-label"/>
+                            <Label fx:id="searchResultDevice" text="Device: " styleClass="result-label"/>
+                            <Label fx:id="searchResultIssue" text="Issue: " styleClass="result-label"/>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label text="Update Phase:" styleClass="admin-form-label"/>
+                                <ComboBox fx:id="updatePhaseCombo" prefWidth="250" styleClass="admin-field"/>
+                                <Button text="Update" onAction="#handleUpdatePhase" styleClass="admin-primary-button"/>
+                                <Button text="Delete Ticket" onAction="#handleDeleteFromSearch" styleClass="admin-danger-button"/>
+                            </HBox>
+                        </VBox>
+                    </children>
+                </VBox>
+
+            </children>
+        </StackPane>
+    </center>
+</BorderPane>
