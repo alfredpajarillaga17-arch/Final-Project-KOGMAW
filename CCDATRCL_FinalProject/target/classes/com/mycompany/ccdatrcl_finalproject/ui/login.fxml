@@ -1,68 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="592.0" prefWidth="774.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/25.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.ccdatrcl_finalproject.ui.LoginController">
-   <children>
-      <VBox id="bg" fx:id="gradientAnim" alignment="CENTER" maxWidth="300.0" prefHeight="678.0" prefWidth="509.0" stylesheets="@login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Label id="ktitle" alignment="CENTER" stylesheets="@login.css" text="KOGMAW" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font name="JetBrainsMonoNL NF Regular" size="96.0" />
-               </font>
-               <padding>
-                  <Insets top="-250.0" />
-               </padding>
+<VBox alignment="TOP_LEFT" spacing="0" styleClass="page-root" stylesheets="@customer.css" xmlns="http://javafx.com/javafx/25.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.ccdatrcl_finalproject.ui.LoginController">
+    <children>
+        <VBox maxWidth="680" prefWidth="680" styleClass="card-modal">
+            <children>
+            <AnchorPane>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <children>
+                      <HBox alignment="CENTER_RIGHT" layoutX="384.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" />
+                      <Label layoutY="9.0" styleClass="section-title" text="Admin Login" textAlignment="CENTER">
+                </Label>
+                       <Button layoutX="598.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleBack" styleClass="close-button" text="×" />
+               </children>
+            </AnchorPane>
+                 <Label prefHeight="69.0" prefWidth="282.0" styleClass="form-brand" text="KOGMAW">
                <effect>
-                  <Glow level="0.74" />
+                  <Glow />
                </effect>
             </Label>
-            <TextField id="ufield" fx:id="usernameField" alignment="CENTER" prefHeight="45.0" prefWidth="305.0" promptText="Username" style="-fx-background-radius: 10;" stylesheets="@login.css">
+            <AnchorPane>
                <VBox.margin>
-                  <Insets left="100.0" right="100.0" />
+                  <Insets top="15.0" />
                </VBox.margin>
-               <effect>
-                  <DropShadow height="18.95" radius="8.745000000000001" spread="0.16" width="18.03" />
-               </effect>
-            </TextField>
-            <VBox prefHeight="56.0" prefWidth="787.0">
-               <VBox.margin>
-                  <Insets bottom="-9.0" />
-               </VBox.margin>
-            </VBox>
-            <VBox prefHeight="65.0" prefWidth="787.0">
                <children>
-                  <PasswordField id="passwordField" fx:id="passwordField" alignment="CENTER" onAction="#handleLogin" prefHeight="45.0" prefWidth="305.0" promptText="Password" style="-fx-background-radius: 10;">
-                     <VBox.margin>
-                        <Insets left="100.0" right="100.0" />
-                     </VBox.margin>
-                     <effect>
-                        <DropShadow height="18.95" radius="8.745000000000001" spread="0.16" width="18.03" />
-                     </effect></PasswordField>
+                      <VBox spacing="4">
+                          <Label styleClass="form-label" text="User" />
+                          <TextField fx:id="usernameField" prefHeight="37.0" prefWidth="614.0" promptText="Enter email address" styleClass="pill-input" />
+                          <Label styleClass="form-label" text="Password">
+                              <VBox.margin>
+                                  <Insets top="12" />
+                              </VBox.margin>
+                          </Label>
+                          <PasswordField fx:id="passwordField" onAction="#handleLogin" promptText="Enter password" styleClass="pill-input" />
+                      </VBox>
                </children>
-            </VBox>
-            <Button id="logbut" fx:id="loginBtn" mnemonicParsing="false" onAction="#handleLogin" prefHeight="36.0" prefWidth="97.0" style="-fx-background-radius: 10;" text="Login" textFill="#171417">
-               <font>
-                  <Font size="15.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-               <cursor>
-                  <Cursor fx:constant="OPEN_HAND" />
-               </cursor>
-            </Button>
-         </children>
-      </VBox>
-   </children>
-</AnchorPane>
+            </AnchorPane>
+                <Label styleClass="divider" text="">
+                    <VBox.margin>
+                        <Insets bottom="15" />
+                    </VBox.margin>
+                </Label>
+            <AnchorPane>
+               <children>
+                      <VBox spacing="1" />
+               </children>
+            </AnchorPane>
+                <HBox alignment="CENTER_RIGHT">
+                    <VBox.margin>
+                        <Insets top="18" />
+                    </VBox.margin>
+                    <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#handleLogin" styleClass="dark-button" text="Log in">
+                  <effect>
+                     <Glow />
+                  </effect></Button>
+                </HBox>
+                <Label styleClass="divider" text="">
+                    <VBox.margin>
+                        <Insets top="15" />
+                    </VBox.margin>
+                </Label>
+            </children>
+        </VBox>
+    </children>
+</VBox>

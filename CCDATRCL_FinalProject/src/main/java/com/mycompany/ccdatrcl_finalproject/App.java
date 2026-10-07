@@ -18,7 +18,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("/com/mycompany/ccdatrcl_finalproject/ui/landing"), 1125, 829);
 
-        stage.setTitle("K.O.G.M.A.W");
+        stage.setTitle("KOGMAW");
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
