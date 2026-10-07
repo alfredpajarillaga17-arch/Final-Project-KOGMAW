@@ -42,10 +42,44 @@ public class DatabaseConnection {
             return false;
         }
     }
-    
+
+    // 3. Insert a new appointment into the database
+    public static boolean insertAppointment(Appointment app) {
+        String query = "INSERT INTO appointments (id, customer_name, contact_number, device_type, brand, model, reported_issue, appointment_date, assessment_phase) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, app.getId());
+            pstmt.setString(2, app.getCustomerName());
+            pstmt.setString(3, app.getContactNumber());
+            pstmt.setString(4, app.getDeviceType());
+            pstmt.setString(5, app.getBrand());
+            pstmt.setString(6, app.getModel());
+            pstmt.setString(7, app.getReportedIssue());
+            pstmt.setString(8, app.getAppointmentDate());
+            pstmt.setString(9, app.getAssessmentPhase());
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Database Insert Error: " + e.getMessage());
+            return false;
+        }
+    }
+
+    // 4. Delete an appointment from the database
+    public static boolean deleteAppointment(String id) {
+        String query = "DELETE FROM appointments WHERE id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, id);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Database Delete Error: " + e.getMessage());
+            return false;
+        }
+    }
+
     public static CustomLinkedList fetchAllAppointments() {
         CustomLinkedList appointmentList = new CustomLinkedList();
-        String query = "SELECT * FROM appointments";
+        String query = "SELECT * FROM appointments ORDER BY appointment_date ASC";
         
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query);
@@ -55,6 +89,7 @@ public class DatabaseConnection {
                 Appointment app = new Appointment(
                     rs.getString("id"),
                     rs.getString("customer_name"),
+                    rs.getString("contact_number"),
                     rs.getString("device_type"),
                     rs.getString("brand"),
                     rs.getString("model"),

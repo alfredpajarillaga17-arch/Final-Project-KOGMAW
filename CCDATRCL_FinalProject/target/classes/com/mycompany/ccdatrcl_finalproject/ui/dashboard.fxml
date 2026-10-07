@@ -6,7 +6,6 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -16,113 +15,112 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<!-- ADDED: fx:controller attribute to link to your Java code -->
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="829.0" prefWidth="1125.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.ccdatrcl_finalproject.ui.DashboardController">
-   <left>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-            <Button fx:id="btnDashboard" mnemonicParsing="false" onAction="#showDashboardView" text="Dashboard" />
-            <Button fx:id="btnCreate" mnemonicParsing="false" onAction="#showCreateApptView" text="Create Appointment" />
-            <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#showSearchView" text="Search Ticket" />
-            <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-            <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#handleLogout" text="Logout" />
-         </children>
-      </VBox>
-   </left>
-   <center>
-      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <!-- FIXED: Removed disable="true" so the table is clickable -->
-            <VBox fx:id="dashboardView" prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <Label text="Recent Records" />
-                  <TableView fx:id="recordsTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+<BorderPane xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.ccdatrcl_finalproject.ui.DashboardController">
+    
+    <!-- SIDEBAR -->
+    <left>
+        <VBox spacing="15" style="-fx-padding: 20; -fx-background-color: #2c3e50;">
+            <Label style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" text="K.O.G.M.A.W." />
+            <Button maxWidth="Infinity" onAction="#showDashboardView" text="Dashboard" />
+            <Button maxWidth="Infinity" onAction="#showCreateApptView" text="New Ticket" />
+            <Button maxWidth="Infinity" onAction="#showSearchView" text="Search Ticket" />
+            <Region VBox.vgrow="ALWAYS" />
+            <Button maxWidth="Infinity" onAction="#handleLogout" text="Logout" />
+        </VBox>
+    </left>
+
+    <!-- MAIN CONTENT AREA -->
+    <center>
+        <StackPane style="-fx-padding: 20;">
+            
+            <!-- VIEW 1: DASHBOARD -->
+            <VBox fx:id="dashboardView" spacing="10">
+                <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Active Repair Dashboard" />
+                <TableView fx:id="recordsTable" VBox.vgrow="ALWAYS">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="Ticket ID" />
-                      <TableColumn prefWidth="75.0" text="Customer Name" />
-                        <TableColumn prefWidth="75.0" text="Device" />
-                        <TableColumn prefWidth="75.0" text="Brand" />
-                        <TableColumn prefWidth="75.0" text="Model" />
-                        <TableColumn prefWidth="75.0" text="Issue" />
-                        <TableColumn prefWidth="75.0" text="Date" />
-                        <TableColumn prefWidth="75.0" text="Repair Phase" />
+                        <TableColumn fx:id="colId" prefWidth="100" text="Ticket ID" />
+                        <TableColumn fx:id="colName" prefWidth="150" text="Customer Name" />
+                        <TableColumn fx:id="colContactNumber" prefWidth="150" text="Contact Number" />
+                        <TableColumn fx:id="colDevice" prefWidth="143.0" text="Device" />
+                        <TableColumn fx:id="colBrand" prefWidth="150" text="Brand" />
+                        <TableColumn fx:id="colModel" prefWidth="150" text="Model" />
+                        <TableColumn fx:id="colIssue" prefWidth="143.0" text="Issue" />
+                        <TableColumn fx:id="colDate" prefWidth="150" text="Date" />
+                        <TableColumn fx:id="colPhase" prefWidth="114.0" text="Phase" />
                     </columns>
-                  </TableView>
-               </children>
+                </TableView>
+                <HBox spacing="10">
+                    <Button onAction="#handleProcessNextTicket" text="Process Next" />
+                    <Button onAction="#handleUndoLastEntry" text="Undo Last" />
+                    <Button onAction="#handleCheckWorkflowSteps" text="Map BFS" />
+                    <Button onAction="#handleCheckWorkflowStepsDFS" text="Map DFS" />
+                    <Button onAction="#handleSortByDate" text="Sort (Date)" />
+                    <Button onAction="#handleSortByName" text="Sort (Name)" />
+                    <Button onAction="#handleExportHistoryLog" text="Export Log" />
+                </HBox>
             </VBox>
-            <VBox fx:id="createApptView" prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <Label layoutX="10.0" layoutY="127.0" text="Create Appointment" />
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Label text="Ticket ID: " />
-                        <Label layoutX="10.0" layoutY="10.0" text="Date:" />
-                     </children>
-                  </HBox>
-                  <GridPane>
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label text="Ticket Id" />
-                        <Label text="Customer Name" GridPane.rowIndex="1" />
-                        <Label text="Device Type" GridPane.rowIndex="2" />
-                        <Label text="Brand" GridPane.rowIndex="3" />
-                        <Label text="Model" GridPane.rowIndex="4" />
-                        <Label text="Reported Issue" GridPane.rowIndex="5" />
-                        <Label text="Date" GridPane.rowIndex="6" />
-                        <Label text="Repair Phase" GridPane.rowIndex="7" />
-                        <TextField fx:id="customerNameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField fx:id="brandField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <TextField fx:id="modelField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <TextField fx:id="issueField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <ComboBox fx:id="deviceCombo" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <ComboBox fx:id="phaseCombo" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                     </children>
-                  </GridPane>
-                  <Button fx:id="btnSaveAppt" mnemonicParsing="false" onAction="#handleSaveAppointment" text="Save Appointment" />
-               </children>
+
+            <!-- VIEW 2: CREATE APPOINTMENT -->
+            <VBox fx:id="createApptView" spacing="15" visible="false">
+                <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Intake New Gadget" />
+                <GridPane hgap="10" vgap="15">
+                    <Label text="Customer Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <TextField fx:id="customerNameField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                    <Label text="Contact Number:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <TextField fx:id="contactNumberField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    
+                    <Label text="Device Type:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <ComboBox fx:id="deviceCombo" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    
+                    <Label text="Brand:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <TextField fx:id="brandField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    
+                    <Label text="Model:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                    <TextField fx:id="modelField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                    
+                    <Label text="Reported Issue:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                    <TextField fx:id="issueField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                    
+                    <Label text="Initial Phase:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                    <ComboBox fx:id="phaseCombo" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+               <columnConstraints>
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+                </GridPane>
+                <Button onAction="#handleSaveAppointment" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="Save Appointment" />
             </VBox>
-            <VBox fx:id="searchView" prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <!-- FIXED: Moved the HBox out of the Label's <graphic> tag -->
-                  <Label text="Search Ticket" />
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <TextField fx:id="searchIdField" />
-                        <!-- FIXED: Added onAction to trigger search -->
-                        <Button mnemonicParsing="false" onAction="#handleSearch" text="Search" />
-                     </children>
-                  </HBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <Label text="Displays found ticket details" />
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Label text="Update Phase:" />
-                              <!-- FIXED: Changed fx:id to match the DashboardController -->
-                              <ComboBox fx:id="updatePhaseCombo" prefWidth="150.0" />
-                              <Button mnemonicParsing="false" text="Update" />
-                           </children>
-                        </HBox>
-                        <Button fx:id="btnDelete" mnemonicParsing="false" text="Delete" />
-                     </children>
-                  </VBox>
-               </children>
+
+            <!-- VIEW 3: SEARCH TICKET -->
+            <VBox fx:id="searchView" spacing="15" visible="false">
+                <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Search &amp; Update Ticket" />
+                <HBox spacing="10">
+                    <TextField fx:id="searchIdField" promptText="Enter KGW-XXX" />
+                    <Button onAction="#handleSearch" text="Search" />
+                </HBox>
+                <VBox spacing="10" style="-fx-border-color: #bdc3c7; -fx-border-width: 1; -fx-padding: 15;">
+                    <Label fx:id="searchResultName" text="Name: " />
+                    <Label fx:id="searchResultDevice" text="Device: " />
+                    <Label fx:id="searchResultIssue" text="Issue: " />
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="Update Phase:" />
+                        <ComboBox fx:id="updatePhaseCombo" />
+                        <Button onAction="#handleUpdatePhase" style="-fx-background-color: #3498db; -fx-text-fill: white;" text="Update" />
+                        <Button onAction="#handleDeleteFromSearch" style="-fx-background-color: #e74c3c; -fx-text-fill: white;" text="Delete Ticket" />
+                    </HBox>
+                </VBox>
             </VBox>
-         </children>
-      </StackPane>
-   </center>
+
+        </StackPane>
+    </center>
 </BorderPane>

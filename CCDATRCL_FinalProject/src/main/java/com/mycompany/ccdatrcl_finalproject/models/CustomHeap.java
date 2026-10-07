@@ -13,73 +13,106 @@ public class CustomHeap {
         this.heap = new Appointment[capacity];
     }
 
-    // Helper methods for array-based tree navigation
     private int parent(int i) { return (i - 1) / 2; }
     private int leftChild(int i) { return 2 * i + 1; }
     private int rightChild(int i) { return 2 * i + 2; }
 
-    /**
-     * Inserts a new appointment and heapifies up to maintain Min-Heap property.
-     * Easy to trigger from an AppointmentController 'Save' button.
-     */
+    // Computes priority based on TWO attributes: Date and Phase
+    private int comparePriority(Appointment a, Appointment b) {
+        int dateComparison = a.getAppointmentDate().compareTo(b.getAppointmentDate());
+        if (dateComparison != 0) {
+            return dateComparison; // Earlier dates get priority (-1 means a is smaller/earlier)
+        }
+        // If dates are identical, prioritize by repair phase weight (Higher weight = higher priority)
+        return getPhaseWeight(b.getAssessmentPhase()) - getPhaseWeight(a.getAssessmentPhase());
+    }
+
+    private int getPhaseWeight(String phase) {
+        if (phase == null) return 0;
+        switch(phase) {
+            case "Initial Diagnostic": return 10;
+            case "Disassembly": return 9;
+            case "Component Swap": return 8;
+            case "Part Ordering": return 7;
+            case "Firmware Flash": return 6;
+            case "Cleaning": return 5;
+            case "Reassembly": return 4;
+            case "Stress Test": return 3;
+            case "Final QA": return 2;
+            case "Ready for Pickup": return 1;
+            default: return 0;
+        }
+    }
+
     public void insert(Appointment appointment) {
         if (size == capacity) {
-            // Dynamically double array size if capacity is reached
             capacity *= 2;
             heap = Arrays.copyOf(heap, capacity);
         }
-
         heap[size] = appointment;
         int current = size;
         size++;
 
-        // Heapify Up: Prioritize earlier dates (Min-Heap based on Appointment Date)
-        while (current > 0 &&
-                heap[current].getAppointmentDate().compareTo(heap[parent(current)].getAppointmentDate()) < 0) {
+        while (current > 0 && comparePriority(heap[current], heap[parent(current)]) < 0) {
             swap(current, parent(current));
             current = parent(current);
         }
     }
 
-    /**
-     * Removes and returns the most urgent ticket (root of the Min-Heap).
-     * Useful for a 'Process Next Ticket' action in the DashboardController.
-     */
     public Appointment extractUrgent() {
         if (size <= 0) return null;
-        if (size == 1) {
-            size--;
-            return heap[0];
-        }
+        if (size == 1) return heap[--size];
 
         Appointment root = heap[0];
-        heap[0] = heap[size - 1]; // Move last element to root
+        heap[0] = heap[size - 1]; 
         size--;
-        heapifyDown(0);           // Restore heap property
+        heapifyDown(0);           
 
         return root;
     }
 
-    /**
-     * Restores the Min-Heap structure from the top down.
-     */
     private void heapifyDown(int i) {
         int smallest = i;
         int left = leftChild(i);
         int right = rightChild(i);
 
-        if (left < size &&
-                heap[left].getAppointmentDate().compareTo(heap[smallest].getAppointmentDate()) < 0) {
-            smallest = left;
-        }
-        if (right < size &&
-                heap[right].getAppointmentDate().compareTo(heap[smallest].getAppointmentDate()) < 0) {
-            smallest = right;
-        }
+        if (left < size && comparePriority(heap[left], heap[smallest]) < 0) smallest = left;
+        if (right < size && comparePriority(heap[right], heap[smallest]) < 0) smallest = right;
+        
         if (smallest != i) {
             swap(i, smallest);
-            heapifyDown(smallest); // Recursively push the larger date down
+            heapifyDown(smallest); 
         }
+    }
+
+    /**
+     * Finds and removes a specific appointment by ID from the heap.
+     */
+    public boolean removeById(String id) {
+        int index = -1;
+        for (int i = 0; i < size; i++) {
+            if (heap[i] != null && heap[i].getId().equals(id)) {
+                index = i;
+                break;
+            }
+        }
+        
+        if (index == -1) return false; // Not found
+
+        heap[index] = heap[size - 1]; // Swap with the last element
+        heap[size - 1] = null;
+        size--;
+
+        if (index < size) {
+            // Restore heap property 
+            heapifyDown(index);
+            int current = index;
+            while (current > 0 && comparePriority(heap[current], heap[parent(current)]) < 0) {
+                swap(current, parent(current));
+                current = parent(current);
+            }
+        }
+        return true;
     }
 
     private void swap(int i, int j) {
@@ -88,25 +121,8 @@ public class CustomHeap {
         heap[j] = temp;
     }
 
-    // Inspects the most urgent ticket without removing it
-    public Appointment peekUrgent() {
-        if (size <= 0) return null;
-        return heap[0];
-    }
-
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    /**
-     * Returns a truncated array of current heap items for GUI table rendering.
-     * Note: A heap array is partially sorted, not fully sequentially sorted.
-     */
-    public Appointment[] getHeapForDisplay() {
-        return Arrays.copyOf(heap, size);
-    }
+    public Appointment peekUrgent() { return (size > 0) ? heap[0] : null; }
+    public boolean isEmpty() { return size == 0; }
+    public int getSize() { return size; }
+    public Appointment[] getHeapForDisplay() { return Arrays.copyOf(heap, size); }
 }
