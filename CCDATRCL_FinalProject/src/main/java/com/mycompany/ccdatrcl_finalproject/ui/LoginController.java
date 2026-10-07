@@ -49,12 +49,6 @@ public class LoginController {
             alert.setHeaderText(null);
             alert.setContentText("Invalid username or password.");
             alert.showAndWait();
-
-
-
         }
     }
-
-
-
 }

@@ -76,4 +76,14 @@ public class CustomLinkedList {
             current = current.next;
         }
     }
+
+    public int getSize() {
+        int count = 0;
+        Node current = head;
+        while (current != null) {
+            count++;
+            current = current.next;
+        }
+        return count;
+    }
 }
