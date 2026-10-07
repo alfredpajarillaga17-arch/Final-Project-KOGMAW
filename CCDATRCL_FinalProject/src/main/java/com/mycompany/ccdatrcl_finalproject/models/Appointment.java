@@ -3,6 +3,7 @@ package com.mycompany.ccdatrcl_finalproject.models;
 public class Appointment {
     private String id;
     private String customerName;
+    private String contactNumber;
     private String deviceType;
     private String brand;
     private String model;
@@ -10,9 +11,10 @@ public class Appointment {
     private String appointmentDate;
     private String assessmentPhase; // New field
 
-    public Appointment(String id, String customerName, String deviceType, String brand, String model, String reportedIssue, String appointmentDate, String assessmentPhase) {
+    public Appointment(String id, String customerName, String contactNumber, String deviceType, String brand, String model, String reportedIssue, String appointmentDate, String assessmentPhase) {
         this.id = id;
-        this.customerName = customerName; 
+        this.customerName = customerName;
+        this.contactNumber = contactNumber;
         this.deviceType = deviceType;
         this.brand = brand;
         this.model = model;
@@ -24,6 +26,8 @@ public class Appointment {
     // Existing Getters
     public String getId() { return id; }
     public String getCustomerName() { return customerName; }
+    public String getContactNumber() { return contactNumber; }
+    public void setContactNumber(String contactNumber) { this.contactNumber = contactNumber; }
     public String getDeviceType() { return deviceType; }
     public String getBrand() { return brand; }
     public String getModel() { return model; }
@@ -36,6 +40,6 @@ public class Appointment {
 
     @Override
     public String toString() {
-        return "ID: " + id + " | Name: " + customerName + " | Phase: " + assessmentPhase + " | Date: " + appointmentDate;
+        return "ID: " + id + " | Name: " + customerName + " | Contact Number: " + contactNumber + " | Phase: " + assessmentPhase + " | Date: " + appointmentDate;
     }
 }

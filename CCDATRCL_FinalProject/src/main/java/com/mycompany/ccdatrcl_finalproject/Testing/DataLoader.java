@@ -30,13 +30,14 @@ public class DataLoader {
                 if (fields.length == 7) {
                     String id = fields[0].trim();
                     String customerName = fields[1].trim();
-                    String deviceType = fields[2].trim();
-                    String brand = fields[3].trim();
-                    String model = fields[4].trim();
-                    String reportedIssue = fields[5].trim();
-                    LocalDate appointmentDate = LocalDate.parse(fields[6].trim(), formatter);
+                    String contactNumber = fields[2].trim();
+                    String deviceType = fields[3].trim();
+                    String brand = fields[4].trim();
+                    String model = fields[5].trim();
+                    String reportedIssue = fields[6].trim();
+                    LocalDate appointmentDate = LocalDate.parse(fields[7].trim(), formatter);
 
-                    Appointment app = new Appointment(id, customerName, deviceType, brand, model, reportedIssue, appointmentDate.toString(), "Pending");
+                    Appointment app = new Appointment(id, customerName, contactNumber, deviceType, brand, model, reportedIssue, appointmentDate.toString(), "Pending");
                     appointmentList.insert(app);
                     count++;
                 } 
@@ -44,16 +45,17 @@ public class DataLoader {
                 else if (fields.length == 6) {
                     String id = fields[0].trim();
                     String customerName = fields[1].trim();
-                    String deviceType = fields[2].trim();
-                    
-                    String[] brandModel = fields[3].split("/", 2);
+                    String contactNumber = fields[2].trim();
+                    String deviceType = fields[3].trim();
+
+                    String[] brandModel = fields[4].split("/", 2);
                     String brand = brandModel[0].trim();
                     String model = (brandModel.length > 1) ? brandModel[1].trim() : "Unknown";
                     
-                    String reportedIssue = fields[4].trim();
-                    LocalDate appointmentDate = LocalDate.parse(fields[5].trim(), formatter);
+                    String reportedIssue = fields[5].trim();
+                    LocalDate appointmentDate = LocalDate.parse(fields[6].trim(), formatter);
 
-                    Appointment app = new Appointment(id, customerName, deviceType, brand, model, reportedIssue, appointmentDate.toString(), "Pending");
+                    Appointment app = new Appointment(id, customerName, contactNumber, deviceType, brand, model, reportedIssue, appointmentDate.toString(), "Pending");
                     appointmentList.insert(app);
                     count++;
                 } 
@@ -76,14 +78,14 @@ public class DataLoader {
         for (int i = 0; i < size; i++) {
             String id = String.format("A%04d", i + 1);
             String customerName = "Customer" + (i + 1);
+            String contactNumber = "Contact" + (i + 1);
             String deviceType = "DeviceType" + ((i % 5) + 1);
             String brand = "Brand" + ((i % 3) + 1);
             String model = "Model" + ((i % 4) + 1);
             String reportedIssue = "Issue" + ((i % 6) + 1);
             String appointmentDate = LocalDate.now().plusDays(i % 30).toString();
 
-            // Updated to include the 8th parameter for synthetic data[cite: 15]
-            syntheticData[i] = new Appointment(id, customerName, deviceType, brand, model, reportedIssue, appointmentDate, "Pending");
+            syntheticData[i] = new Appointment(id, customerName, contactNumber, deviceType, brand, model, reportedIssue, appointmentDate, "Pending");
         }
         return syntheticData;
     }

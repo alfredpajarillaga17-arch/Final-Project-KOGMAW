@@ -6,9 +6,9 @@ public class TestRunner {
     public static void main(String[] args) {
         System.out.println("=== TEMPLATE G: TEST EXECUTION ===");
 
-        Appointment app1 = new Appointment("KGW-001", "Customer A", "Phone", "BrandX", "ModelY", "Screen", "2026-10-10", "Intake");
-        Appointment app2 = new Appointment("KGW-002", "Customer B", "Laptop", "BrandZ", "ModelW", "Battery", "2026-10-11", "Diagnostics");
-        Appointment urgentApp = new Appointment("KGW-003", "Customer C", "Tablet", "BrandA", "ModelB", "Port", "2026-10-01", "Urgent"); // Earliest date
+        Appointment app1 = new Appointment("KGW-001", "Customer A", "Contact A", "Phone", "BrandX", "ModelY", "Screen", "2026-10-10", "Intake");
+        Appointment app2 = new Appointment("KGW-002", "Customer B", "Contact B", "Laptop", "BrandZ", "ModelW", "Battery", "2026-10-11", "Diagnostics");
+        Appointment urgentApp = new Appointment("KGW-003", "Customer C", "Contact C", "Tablet", "BrandA", "ModelB", "Port", "2026-10-01", "Urgent"); // Earliest date
 
         // T01: Empty structure case
         CustomQueue emptyQueue = new CustomQueue();

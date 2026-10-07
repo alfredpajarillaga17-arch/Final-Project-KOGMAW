@@ -1,104 +1,97 @@
 package com.mycompany.ccdatrcl_finalproject.models;
 
-import java.util.*;
-
 public class CustomGraph {
-
-    // Inner class representing a weighted edge between workflow stages
-    private static class Edge {
-        String destination;
-        int weight; // Duration/time in minutes or steps
-
-        public Edge(String destination, int weight) {
-            this.destination = destination;
-            this.weight = weight;
-        }
-
-        @Override
-        public String toString() {
-            return destination + " (" + weight + " mins)";
-        }
-    }
-
-    private Map<String, List<Edge>> adjacencyList;
+    private String[] vertices;
+    private int[][] adjMatrix;
+    private int numVertices;
+    private static final int MAX_NODES = 20;
 
     public CustomGraph() {
-        this.adjacencyList = new HashMap<>();
+        vertices = new String[MAX_NODES];
+        adjMatrix = new int[MAX_NODES][MAX_NODES];
+        numVertices = 0;
     }
 
-    // Add new stage/vertex to the graph
+    private int getIndex(String vertex) {
+        for (int i = 0; i < numVertices; i++) {
+            if (vertices[i].equals(vertex)) return i;
+        }
+        return -1;
+    }
+
     public void addVertex(String location) {
-        adjacencyList.putIfAbsent(location, new ArrayList<>());
+        if (getIndex(location) == -1 && numVertices < MAX_NODES) {
+            vertices[numVertices++] = location;
+        }
     }
 
-    // Add undirected weighted edge between two workflow stages
     public void addEdge(String source, String destination, int weight) {
         addVertex(source);
         addVertex(destination);
-        adjacencyList.get(source).add(new Edge(destination, weight));
-        adjacencyList.get(destination).add(new Edge(source, weight));
+        int srcIdx = getIndex(source);
+        int destIdx = getIndex(destination);
+        if (srcIdx != -1 && destIdx != -1) {
+            adjMatrix[srcIdx][destIdx] = weight;
+            adjMatrix[destIdx][srcIdx] = weight;
+        }
     }
 
-    // Execute Breadth-First Search (BFS) traversal
+    // Custom Queue to handle BFS without importing java.util.LinkedList
+    private static class StringQueue {
+        String[] items = new String[50];
+        int front = 0, rear = 0;
+        void enqueue(String s) { items[rear++] = s; }
+        String dequeue() { return items[front++]; }
+        boolean isEmpty() { return front == rear; }
+    }
+
     public void bfs(String startLocation) {
-        if (!adjacencyList.containsKey(startLocation)) {
-            System.out.println("Stage " + startLocation + " does not exist in the graph.");
+        int startIdx = getIndex(startLocation);
+        if (startIdx == -1) {
+            System.out.println("Stage " + startLocation + " does not exist.");
             return;
         }
 
-        Set<String> visited = new HashSet<>();
-        Queue<String> queue = new LinkedList<>();
+        boolean[] visited = new boolean[numVertices];
+        StringQueue queue = new StringQueue();
 
-        visited.add(startLocation);
-        queue.add(startLocation);
+        visited[startIdx] = true;
+        queue.enqueue(startLocation);
 
         System.out.println("\n--- BFS Traversal starting from: " + startLocation + " ---");
         while (!queue.isEmpty()) {
-            String current = queue.poll();
+            String current = queue.dequeue();
             System.out.print(current + " -> ");
+            int currIdx = getIndex(current);
 
-            for (Edge edge : adjacencyList.get(current)) {
-                if (!visited.contains(edge.destination)) {
-                    visited.add(edge.destination);
-                    queue.add(edge.destination);
+            for (int i = 0; i < numVertices; i++) {
+                if (adjMatrix[currIdx][i] > 0 && !visited[i]) {
+                    visited[i] = true;
+                    queue.enqueue(vertices[i]);
                 }
             }
         }
         System.out.println("END");
     }
 
-    // Execute Depth-First Search (DFS) traversal for T08
     public void dfs(String startLocation) {
-        if (!adjacencyList.containsKey(startLocation)) {
-            System.out.println("Stage " + startLocation + " does not exist in the graph.");
-            return;
-        }
+        int startIdx = getIndex(startLocation);
+        if (startIdx == -1) return;
 
-        Set<String> visited = new HashSet<>();
-        
+        boolean[] visited = new boolean[numVertices];
         System.out.println("\n--- DFS Traversal starting from: " + startLocation + " ---");
-        dfsHelper(startLocation, visited);
+        dfsHelper(startIdx, visited);
         System.out.println("END");
     }
 
-    // Recursive helper method for DFS
-    private void dfsHelper(String current, Set<String> visited) {
-        // Mark the current stage as visited and print it
-        visited.add(current);
-        System.out.print(current + " -> ");
+    private void dfsHelper(int currIdx, boolean[] visited) {
+        visited[currIdx] = true;
+        System.out.print(vertices[currIdx] + " -> ");
 
-        // Recursively visit all unvisited connected stages
-        for (Edge edge : adjacencyList.get(current)) {
-            if (!visited.contains(edge.destination)) {
-                dfsHelper(edge.destination, visited);
+        for (int i = 0; i < numVertices; i++) {
+            if (adjMatrix[currIdx][i] > 0 && !visited[i]) {
+                dfsHelper(i, visited);
             }
-        }
-    }
-    // Display complete graph adjacency structure
-    public void displayGraph() {
-        System.out.println("\n--- Technical Repair Workflow Graph ---");
-        for (String node : adjacencyList.keySet()) {
-            System.out.println(node + " connects to: " + adjacencyList.get(node));
         }
     }
 }

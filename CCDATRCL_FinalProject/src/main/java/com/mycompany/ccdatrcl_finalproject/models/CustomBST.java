@@ -50,8 +50,36 @@ public class CustomBST {
         System.out.println("===               BST SORTED OUTPUT           ===");
         System.out.println("==================================================");
         inOrder(root);
-        
+    }
 
+    // ==========================================================
+    // PRE-ORDER TRAVERSAL
+    // ==========================================================
+    public void preOrder() {
+        System.out.println("\n--- BST Pre-Order Traversal ---");
+        preOrder(root);
+    }
+
+    private void preOrder(BSTNode node) {
+        if (node == null) return;
+        System.out.println(node.data);
+        preOrder(node.left);
+        preOrder(node.right);
+    }
+
+    // ==========================================================
+    // POST-ORDER TRAVERSAL
+    // ==========================================================
+    public void postOrder() {
+        System.out.println("\n--- BST Post-Order Traversal ---");
+        postOrder(root);
+    }
+
+    private void postOrder(BSTNode node) {
+        if (node == null) return;
+        postOrder(node.left);
+        postOrder(node.right);
+        System.out.println(node.data);
     }
 
     private void inOrder(BSTNode node) {
@@ -61,7 +89,6 @@ public class CustomBST {
         inOrder(node.left);
         System.out.println(node.data);
         inOrder(node.right);
-
     }
 
     public Appointment search(String id) {
@@ -72,19 +99,19 @@ public class CustomBST {
 
     private Appointment search(BSTNode node, String id) {
         if (node == null) {
-            return null; // mao ni ang base case kung dili maka pangita sa tree, null ang i-return ani niya
+            return null; 
         }
 
         if (id.equals(node.data.getId())) {
-            return node.data; // nya diri kung makit-an niya ang appointment ID sa node, i-return niya ang data sa appointment na naay matching ID
+            return node.data; 
         }
 
         int comparison = id.compareTo(node.data.getId());
 
         if (comparison < 0) {
-            return search(node.left, id); // Search in the left subtree
+            return search(node.left, id); 
         } else {
-            return search(node.right, id); // Search in the right subtree
+            return search(node.right, id); 
         }
     }
 
@@ -94,28 +121,26 @@ public class CustomBST {
 
     private BSTNode delete(BSTNode node, String id) {
         if (node == null) {
-            return null; // Base case: If the node is null, return null
+            return null; 
         }
 
         int comparison = id.compareTo(node.data.getId());
 
         if (comparison < 0) {
-            node.left = delete(node.left, id); // Search in the left subtree
+            node.left = delete(node.left, id); 
         } else if (comparison > 0) {
-            node.right = delete(node.right, id); // Search in the right subtree
+            node.right = delete(node.right, id); 
         } else {
-            // Node to be deleted found
 
-            // Case 2: Node has one child
             if (node.left == null) {
-                return node.right; // Replace with the right child
+                return node.right; 
 
             } else if (node.right == null) {
-                return node.left; // Replace with the left child
+                return node.left; 
             }
 
-            // Case 3: Node has two children
-        BSTNode successor = node.right; // Find the minimum value in the right subtree
+        
+        BSTNode successor = node.right; 
             while (successor.left != null) {
             successor = successor.left;
         }
