@@ -45,7 +45,7 @@ public class DatabaseConnection {
 
     // 3. Insert a new appointment into the database
     public static boolean insertAppointment(Appointment app) {
-        String query = "INSERT INTO appointments (id, customer_name, contact_number, device_type, brand, model, reported_issue, appointment_date, assessment_phase) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT IGNORE INTO appointments (id, customer_name, contact_number, device_type, brand, model, reported_issue, appointment_date, assessment_phase) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, app.getId());

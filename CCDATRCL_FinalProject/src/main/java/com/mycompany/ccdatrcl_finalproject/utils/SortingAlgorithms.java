@@ -47,7 +47,7 @@ public class SortingAlgorithms {
                     }
                 }
             }
-            // Only swap if a new minimum was found
+
             if (minIdx != i) {
                 Appointment temp = appointments[minIdx];
                 appointments[minIdx] = appointments[i];
