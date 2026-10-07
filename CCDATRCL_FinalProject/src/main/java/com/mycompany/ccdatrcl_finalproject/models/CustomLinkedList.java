@@ -21,6 +21,7 @@ public class CustomLinkedList {
     public CustomLinkedList() {
         this.head = null;
     }
+    
     // Appends a new appointment to the tail of the list
     public void insert(Appointment appointment) {
         Node newNode = new Node(appointment);

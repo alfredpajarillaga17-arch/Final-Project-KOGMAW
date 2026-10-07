@@ -8,48 +8,34 @@ public class Appointment {
     private String model;
     private String reportedIssue;
     private String appointmentDate;
+    private String assessmentPhase; // New field
 
-    public Appointment(String id, String customerName, String deviceType, String brand, String model, String reportedIssue, String appointmentDate) {
+    public Appointment(String id, String customerName, String deviceType, String brand, String model, String reportedIssue, String appointmentDate, String assessmentPhase) {
         this.id = id;
-        this.customerName = customerName; // Make sure this line exists!
+        this.customerName = customerName; 
         this.deviceType = deviceType;
         this.brand = brand;
         this.model = model;
         this.reportedIssue = reportedIssue;
         this.appointmentDate = appointmentDate;
+        this.assessmentPhase = assessmentPhase;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public String getDeviceType() {
-        return deviceType;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public String getReportedIssue() {
-        return reportedIssue;
-    }
-
-    public String getAppointmentDate() {
-        return appointmentDate;
-    }
+    // Existing Getters
+    public String getId() { return id; }
+    public String getCustomerName() { return customerName; }
+    public String getDeviceType() { return deviceType; }
+    public String getBrand() { return brand; }
+    public String getModel() { return model; }
+    public String getReportedIssue() { return reportedIssue; }
+    public String getAppointmentDate() { return appointmentDate; }
+    
+    // New Getter and Setter for Phase
+    public String getAssessmentPhase() { return assessmentPhase; }
+    public void setAssessmentPhase(String assessmentPhase) { this.assessmentPhase = assessmentPhase; }
 
     @Override
     public String toString() {
-        return "ID: " + id + " | Name: " + customerName + " | Device: " + deviceType 
-               + " (" + brand + ") | Date: " + appointmentDate;
+        return "ID: " + id + " | Name: " + customerName + " | Phase: " + assessmentPhase + " | Date: " + appointmentDate;
     }
 }

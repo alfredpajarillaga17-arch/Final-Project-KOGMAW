@@ -67,6 +67,33 @@ public class CustomGraph {
         System.out.println("END");
     }
 
+    // Execute Depth-First Search (DFS) traversal for T08
+    public void dfs(String startLocation) {
+        if (!adjacencyList.containsKey(startLocation)) {
+            System.out.println("Stage " + startLocation + " does not exist in the graph.");
+            return;
+        }
+
+        Set<String> visited = new HashSet<>();
+        
+        System.out.println("\n--- DFS Traversal starting from: " + startLocation + " ---");
+        dfsHelper(startLocation, visited);
+        System.out.println("END");
+    }
+
+    // Recursive helper method for DFS
+    private void dfsHelper(String current, Set<String> visited) {
+        // Mark the current stage as visited and print it
+        visited.add(current);
+        System.out.print(current + " -> ");
+
+        // Recursively visit all unvisited connected stages
+        for (Edge edge : adjacencyList.get(current)) {
+            if (!visited.contains(edge.destination)) {
+                dfsHelper(edge.destination, visited);
+            }
+        }
+    }
     // Display complete graph adjacency structure
     public void displayGraph() {
         System.out.println("\n--- Technical Repair Workflow Graph ---");
