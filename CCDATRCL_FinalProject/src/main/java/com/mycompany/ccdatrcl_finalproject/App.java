@@ -15,7 +15,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         // Initialize the first scene using the Login.fxml file
-        scene = new Scene(loadFXML("/com/mycompany/ccdatrcl_finalproject/ui/Login"), 600, 400);
+        scene = new Scene(loadFXML("/com/mycompany/ccdatrcl_finalproject/ui/login"), 600, 400);
         
         // Set the window title for the gadget maintenance system
         stage.setTitle("K.O.G.M.A.W. - System Login");
