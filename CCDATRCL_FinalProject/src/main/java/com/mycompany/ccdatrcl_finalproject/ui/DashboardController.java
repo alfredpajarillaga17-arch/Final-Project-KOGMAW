@@ -46,12 +46,10 @@ public class DashboardController {
     @FXML private TextField searchIdField;
     @FXML private ComboBox<String> updatePhaseCombo; 
     
-    // UI Elements for displaying search results
     @FXML private Label searchResultName;
     @FXML private Label searchResultDevice;
     @FXML private Label searchResultIssue;
 
-    // Track currently loaded ticket in search view for updating
     private Appointment activeSearchedTicket = null;
 
     // Table setup using the Appointment model
@@ -146,7 +144,7 @@ public class DashboardController {
     @FXML
     private void handleLogout(ActionEvent event) {
         try {
-            // Always return to the public welcome screen, not the admin login.
+  
             App.setRoot("/com/mycompany/ccdatrcl_finalproject/ui/landing");
         } catch (IOException e) {
             e.printStackTrace();
@@ -174,7 +172,7 @@ public class DashboardController {
     @FXML
     private void handleSaveAppointment(ActionEvent event) {
         String customerName = customerNameField.getText();
-        String contactNumber = contactNumberField.getText(); // Capture contact number
+        String contactNumber = contactNumberField.getText();
         String device = deviceCombo.getValue();
         String brand = brandField.getText();
         String model = modelField.getText();
@@ -190,7 +188,6 @@ public class DashboardController {
         String newId = generateRandomTicketId();
         String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        // Pass contactNumber into Appointment constructor
         Appointment newAppointment = new Appointment(
             newId, customerName, contactNumber, device, brand, model, issue, currentDate, phase
         );
@@ -209,7 +206,6 @@ public class DashboardController {
         dataManager.getHistoryLog().insert(newAppointment);
         dataManager.getUndoStack().push(newAppointment);
 
-        // Clear fields including contact number
         customerNameField.clear();
         contactNumberField.clear();
         brandField.clear();
@@ -234,11 +230,12 @@ public class DashboardController {
         activeSearchedTicket = dataManager.getInstantCache().get(searchId.toUpperCase());
 
         if (activeSearchedTicket != null) {
+            if (searchIdField != null) searchIdField.setText(activeSearchedTicket.getId());
             if (searchResultName != null) searchResultName.setText("Name: " + activeSearchedTicket.getCustomerName());
             if (searchResultDevice != null) searchResultDevice.setText("Device: " + activeSearchedTicket.getBrand() + " " + activeSearchedTicket.getModel());
             if (searchResultIssue != null) searchResultIssue.setText("Issue: " + activeSearchedTicket.getReportedIssue());
-            if (updatePhaseCombo != null) updatePhaseCombo.setValue(activeSearchedTicket.getAssessmentPhase());
-            
+
+            restrictPhaseTransitions(activeSearchedTicket.getAssessmentPhase());
             showAlert(Alert.AlertType.INFORMATION, "Found", "Ticket loaded successfully.");
         } else {
             activeSearchedTicket = null;
@@ -259,12 +256,14 @@ public class DashboardController {
             return;
         }
 
-        // Update database record
         boolean dbSuccess = DatabaseConnection.updateAppointmentPhase(activeSearchedTicket.getId(), newPhase);
 
         if (dbSuccess) {
-            // Update local object phase
-            activeSearchedTicket.setAssessmentPhase(newPhase);
+            activeSearchedTicket.setAssessmentPhase(newPhase); 
+            
+            refreshTableData(); 
+            restrictPhaseTransitions(newPhase); 
+            
             showAlert(Alert.AlertType.INFORMATION, "Success", "Ticket phase updated successfully to: " + newPhase);
         } else {
             showAlert(Alert.AlertType.ERROR, "Database Error", "Failed to update assessment phase in the database.");
@@ -273,12 +272,25 @@ public class DashboardController {
 
     @FXML
     private void handleProcessNextTicket(ActionEvent event) {
+        // 1. Pull the next ticket from the queue
         Appointment nextTicket = dataManager.getIntakeQueue().dequeue();
+        
         if (nextTicket != null) {
+            // 2. Set this ticket as the active ticket so handleUpdatePhase() can modify it
+            activeSearchedTicket = nextTicket;
+
+            // 3. Automatically populate the ticket details into the Search/Update UI labels
+            if (searchIdField != null) searchIdField.setText(nextTicket.getId());
+            if (searchResultName != null) searchResultName.setText("Name: " + nextTicket.getCustomerName());
+            if (searchResultDevice != null) searchResultDevice.setText("Device: " + nextTicket.getBrand() + " " + nextTicket.getModel());
+            if (searchResultIssue != null) searchResultIssue.setText("Issue: " + nextTicket.getReportedIssue());
+            if (updatePhaseCombo != null) updatePhaseCombo.setValue(nextTicket.getAssessmentPhase());
+
+            // 4. Automatically switch the screen to the Search View
+            showSearchView();
+
             showAlert(Alert.AlertType.INFORMATION, "Workbench Status", 
-                "Now repairing: " + nextTicket.getId() + "\n" +
-                "Device: " + nextTicket.getBrand() + " " + nextTicket.getModel() + "\n" +
-                "Issue: " + nextTicket.getReportedIssue());
+                "Now repairing: " + nextTicket.getId() + "\nTicket details have been loaded so you can update the phase.");
         } else {
             showAlert(Alert.AlertType.INFORMATION, "Queue Empty", "No pending tickets in the intake queue.");
         }
@@ -402,6 +414,21 @@ public class DashboardController {
             if (appt != null) tableData.add(appt);
         }
         recordsTable.setItems(tableData);
+    }
+
+    private void restrictPhaseTransitions(String currentPhase) {
+        if (updatePhaseCombo == null) return;
+        
+        updatePhaseCombo.getItems().clear();
+        updatePhaseCombo.getItems().add(currentPhase); // Always allow them to stay on the current phase
+        
+        // Fetch only valid neighbors from the custom graph
+        String[] validNextPhases = dataManager.getWorkflowGraph().getAdjacentPhases(currentPhase);
+        for(String phase : validNextPhases) {
+            updatePhaseCombo.getItems().add(phase);
+        }
+        
+        updatePhaseCombo.setValue(currentPhase);
     }
 
     private void showAlert(Alert.AlertType type, String title, String content) {

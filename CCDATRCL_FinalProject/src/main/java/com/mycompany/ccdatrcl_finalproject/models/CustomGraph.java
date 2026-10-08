@@ -94,4 +94,25 @@ public class CustomGraph {
             }
         }
     }
+    
+    // Returns an array of valid next phases based on the workflow graph
+    public String[] getAdjacentPhases(String phase) {
+        int idx = getIndex(phase);
+        if (idx == -1) return new String[0];
+        
+        // Count neighbors to properly size the return array
+        int count = 0;
+        for (int i = 0; i < numVertices; i++) {
+            if (adjMatrix[idx][i] > 0) count++;
+        }
+        
+        String[] neighbors = new String[count];
+        int nIdx = 0;
+        for (int i = 0; i < numVertices; i++) {
+            if (adjMatrix[idx][i] > 0) {
+                neighbors[nIdx++] = vertices[i];
+            }
+        }
+        return neighbors;
+    }
 }
