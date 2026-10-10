@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="TOP_CENTER" styleClass="page-root" stylesheets="@customer.css" xmlns="http://javafx.com/javafx/25.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.ccdatrcl_finalproject.ui.AppointmentController">
+    <children>
+        <VBox maxWidth="680" prefWidth="680" styleClass="card-modal">
+            <children>
+                <HBox alignment="CENTER_RIGHT">
+                    <Button mnemonicParsing="false" onAction="#handleBack" styleClass="close-button" text="×" />
+                </HBox>
+                <Label prefHeight="58.0" prefWidth="457.0" styleClass="appointment-banner" text="CREATE APPOINTMENT">
+               <effect>
+                  <DropShadow />
+               </effect></Label>
+                <Label styleClass="divider" text="">
+                    <VBox.margin>
+                        <Insets bottom="10" />
+                    </VBox.margin>
+                </Label>
+                <GridPane hgap="10" vgap="10">
+                    <VBox.margin>
+                        <Insets top="5" />
+                    </VBox.margin>
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50" />
+                        <ColumnConstraints percentWidth="50" />
+                    </columnConstraints>
+                    <children>
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <Label styleClass="form-label" text="Customer Name" />
+                            <TextField fx:id="customerNameField" styleClass="pill-input" />
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <Label styleClass="form-label" text="Customer Phone Number" />
+                            <TextField fx:id="contactNumberField" promptText="eg. 0912 345 6789" styleClass="pill-input" />
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <Label styleClass="form-label" text="Type of device" />
+                            <ComboBox fx:id="deviceCombo" maxWidth="Infinity" promptText="Select type" styleClass="pill-input">
+                        <opaqueInsets>
+                           <Insets />
+                        </opaqueInsets></ComboBox>
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <Label styleClass="form-label" text="Model" />
+                            <TextField fx:id="modelField" promptText="eg. Lenovo IdeaPad 16XX" styleClass="pill-input" />
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                            <Label styleClass="form-label" text="Issue" />
+                            <TextField fx:id="issueField" promptText="eg. overheating, etc." styleClass="pill-input" />
+                        </VBox>
+                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                            <Label styleClass="form-label" text="Date" />
+                            <DatePicker fx:id="datePicker" maxWidth="Infinity" promptText="Select date" styleClass="pill-input" />
+                        </VBox>
+                    </children>
+                    <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                    </rowConstraints>
+                </GridPane>
+            <AnchorPane>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <children>
+                      <HBox alignment="CENTER_RIGHT" />
+                       <Button alignment="CENTER" layoutX="476.0" maxHeight="-Infinity" maxWidth="634.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleBook" prefHeight="30.0" prefWidth="108.0" styleClass="dark-button wide-button" text="Book" />
+                      <Label alignment="CENTER" layoutY="-6.0" prefHeight="41.0" prefWidth="419.0" styleClass="disclaimer" text="By booking an appointment, you agree to provide accurate information about your device and issue." wrapText="true" />
+               </children>
+            </AnchorPane>
+            </children>
+        </VBox>
+    </children>
+</VBox>
