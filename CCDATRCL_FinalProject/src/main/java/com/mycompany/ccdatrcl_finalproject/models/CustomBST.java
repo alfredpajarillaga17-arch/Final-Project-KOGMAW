@@ -61,7 +61,8 @@ public class CustomBST {
     }
 
     private void preOrder(BSTNode node) {
-        if (node == null) return;
+        if (node == null)
+            return;
         System.out.println(node.data);
         preOrder(node.left);
         preOrder(node.right);
@@ -76,7 +77,8 @@ public class CustomBST {
     }
 
     private void postOrder(BSTNode node) {
-        if (node == null) return;
+        if (node == null)
+            return;
         postOrder(node.left);
         postOrder(node.right);
         System.out.println(node.data);
@@ -95,25 +97,69 @@ public class CustomBST {
         return search(root, id);
     }
 
-   
+    // ----------SEARCH FUNCTION (By: Darg)----------//
+
+    // Basically, this function is a recursive search function that traverses the
+    // binary search tree (BST) to find an appointment with a specific ID. It starts
+    // from the root node and compares the given ID with the ID of the current
+    // node's data. If it finds a match, it returns the corresponding appointment.
+    // If the ID is less than the current node's ID, it continues searching in the
+    // left subtree; if it's greater, it searches in the right subtree. If it
+    // reaches a null node, it means the appointment with the specified ID does not
+    // exist in the tree, and it returns null.
 
     private Appointment search(BSTNode node, String id) {
+        /*
+         * Ito yung stopper (base case), meaning pag wala ng laman yung node
+         * (like walang laman yung both left and right subtrees),
+         * Edi mag rereturn siya ng null.
+         * KASI NGA WALA NGANING LAMAN YUNG NODE
+         */
         if (node == null) {
-            return null; 
+            return null;
         }
 
+        /*
+         * Ito naman pag may nahanap siyang node na same value sa id na hinahanap mo,
+         * Edi rereturn niya yung nahanap niya.
+         * KASI SAME NGANI YUNG VALUE NG ID NA HINAHANAP MO SA NODE DATA
+         * 
+         * (ps. yung node.data.getId() is yung nakastore sa current node.
+         * yung id naman is yung hinahanap mo.)
+         */
+
         if (id.equals(node.data.getId())) {
-            return node.data; 
+            return node.data;
         }
+
+        /*
+         * Dito naman pag wala hindi siya same value, pag ko-compare niya yung hinahanap
+         * mo sa current node.
+         * 
+         * Pag mas maliit yung node, magiging value niya is -1
+         * Pag mag malaki, edi 1
+         * Pag same, edi 0 (pero pag 0 na, edi nahanap na)
+         * 
+         * Take for example, KGW-T600 yung hinahanap mo,
+         * Current node is Y450,
+         * ignore the letter, is Y450 < T600? Yes, edi -1, punta sa left, repeat
+         * 
+         * (ps. magiging string comparison yung id.compareTo(node.data.getId()) kasi
+         * string yung id,
+         * so basically lexagraphical comparison not numerical)
+         * 
+         */
 
         int comparison = id.compareTo(node.data.getId());
 
         if (comparison < 0) {
-            return search(node.left, id); 
+            return search(node.left, id);
         } else {
-            return search(node.right, id); 
+            return search(node.right, id);
         }
     }
+
+    // ----------DELETE FUNCTION (By: Darg)----------//
 
     public void delete(String id) {
         root = delete(root, id);
@@ -121,37 +167,35 @@ public class CustomBST {
 
     private BSTNode delete(BSTNode node, String id) {
         if (node == null) {
-            return null; 
+            return null;
         }
 
         int comparison = id.compareTo(node.data.getId());
 
         if (comparison < 0) {
-            node.left = delete(node.left, id); 
+            node.left = delete(node.left, id);
         } else if (comparison > 0) {
-            node.right = delete(node.right, id); 
+            node.right = delete(node.right, id);
         } else {
 
             if (node.left == null) {
-                return node.right; 
+                return node.right;
 
             } else if (node.right == null) {
-                return node.left; 
+                return node.left;
             }
 
-        
-        BSTNode successor = node.right; 
+            BSTNode successor = node.right;
             while (successor.left != null) {
-            successor = successor.left;
+                successor = successor.left;
+            }
+
+            node.data = successor.data;
+
+            node.right = delete(
+                    node.right,
+                    successor.data.getId());
         }
-
-        node.data = successor.data;
-
-        node.right = delete(
-                node.right,
-                successor.data.getId()
-        );
-    }
 
         return node;
     }
