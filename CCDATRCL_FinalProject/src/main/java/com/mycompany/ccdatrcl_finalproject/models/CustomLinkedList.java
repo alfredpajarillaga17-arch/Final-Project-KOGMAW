@@ -1,7 +1,7 @@
 package com.mycompany.ccdatrcl_finalproject.models;
 // Used for tracking history logs ng repair tickets
 public class CustomLinkedList {
-
+    // USED IN: DashboardController during initialization.
     // Nag-aallow ng other parts ng program to access yung very first node sa list
     public Node getHead() {
         return head;
@@ -27,7 +27,7 @@ public class CustomLinkedList {
     public CustomLinkedList() {
         this.head = null;
     }
-    
+    // USED IN: DatabaseConnection and DashboardController.
     // Nilalagay niya yung new appointment sa tail ng linked list
     public void insert(Appointment appointment) {
         Node newNode = new Node(appointment);
@@ -44,6 +44,7 @@ public class CustomLinkedList {
             current.next = newNode;
         }
     }
+    // USED IN: DashboardController.
     // Hahanapin niya yung appointment details using Ticket id then ireremove niya yung node na yun sa linked list 
     public boolean delete(String appointmentId) {
         if (head == null) return false;
@@ -69,6 +70,7 @@ public class CustomLinkedList {
         }
         return false;
     }
+    // USED IN: TracePacketRunner.
     // Hahanapin niya yung appointment details using Ticket id 
     public Appointment search(String appointmentId) {
         Node current = head;
@@ -81,6 +83,7 @@ public class CustomLinkedList {
         }
         return null; 
     }
+    // USED IN: DashboardController.
     // Iiiterate niya sa linked list para i-display yung repair logs sa console once iclick mo yung "Export Log" button sa GUI
     public void traverse() {
         Node current = head;
@@ -90,7 +93,7 @@ public class CustomLinkedList {
             current = current.next;
         }
     }
-
+    // USED IN: BenchmarkRunner.
     // Returns the total number of nodes in the linked list
     public int getSize() {
         int count = 0;
