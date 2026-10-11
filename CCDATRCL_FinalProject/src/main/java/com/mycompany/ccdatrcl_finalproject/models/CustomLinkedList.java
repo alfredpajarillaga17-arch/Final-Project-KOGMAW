@@ -86,7 +86,7 @@ public class CustomLinkedList {
         Node current = head;
         System.out.println("\n--- Linked List Repair Logs ---");
         while (current != null) {
-            System.out.println("ID: " + current.data.getId() + " | Customer: " + current.data.getCustomerName());
+            System.out.println("ID: " + current.data.getId() + " | Customer: " + current.data.getCustomerName() + " | Date : " + current.data.getAppointmentDate());
             current = current.next;
         }
     }
