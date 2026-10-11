@@ -1,50 +1,63 @@
 package com.mycompany.ccdatrcl_finalproject.models;
-
+// Used for tracking history logs ng repair tickets
 public class CustomLinkedList {
 
+    // Nag-aallow ng other parts ng program to access yung very first node sa list
     public Node getHead() {
         return head;
     }
-
+    
+    /* 
+     * Node class na nagrerepresent ng bawat appointment sa linked list
+     * 'Pag may inaadd na ticket laging may node na nagagawa which contains two things: yung appointment details and yung next node pointer
+     */ 
     public static class Node {
-        public Appointment data;
-        public Node next; // Pointer to the next node in memory
-
+        public Appointment data; //ticket details
+        public Node next; //pointer to the next node
+        
+        //constructor na nagiinitialize ng node with appointment data and sets next pointer to null
         public Node(Appointment data) {
             this.data = data;
             this.next = null;
         }
     }
-    // Entry point of the Linked List (Points to the first node)
+    // Head ng linked list, which is yung very first node
     private Node head;
-
+    // Constructor na nagiinitialize ng linked list with no nodes
     public CustomLinkedList() {
         this.head = null;
     }
     
-    // Appends a new appointment to the tail of the list
+    // Nilalagay niya yung new appointment sa tail ng linked list
     public void insert(Appointment appointment) {
         Node newNode = new Node(appointment);
+        // If yung head is null or empty, yung new appointment yung magiging head
         if (head == null) {
             head = newNode;
         } else {
+            // else  magttravel siya sa dulo hanggang makita niya yung last node tapos doon niya ilalagay yung new appointment
             Node current = head;
             while (current.next != null) {
                 current = current.next;
             }
+            // Iaattach niya yung new node sa dulo ng list
             current.next = newNode;
         }
     }
-    // Finds and unlinks a node by its appointment ID
+    // Hahanapin niya yung appointment details using Ticket id then ireremove niya yung node na yun sa linked list 
     public boolean delete(String appointmentId) {
         if (head == null) return false;
 
-        // Case 1: The node to remove is the head
+        //Case 1: yung node na aalisin is yung nasa front ng list, so iaassign niya yung head sa next node
         if (head.data.getId().equals(appointmentId)) {
             head = head.next;
             return true;
         }
-        // Case 2: Node is in the middle or end
+        /* Case 2: yung node na aalisin is nasa gitna or dulo ng list, so magttravel 
+         * siya sa list hanggang makita niya yung node na may matching id tapos iaassign 
+         * niya yung next pointer ng previous node sa next pointer ng current node 
+         * para maalis yung current node sa list
+         */
         Node current = head;
         while (current.next != null) {
             if (current.next.data.getId().equals(appointmentId)) {
@@ -56,18 +69,19 @@ public class CustomLinkedList {
         }
         return false;
     }
-    // Scans the list to locate an appointment by ID
+    // Hahanapin niya yung appointment details using Ticket id 
     public Appointment search(String appointmentId) {
         Node current = head;
         while (current != null) {
             if (current.data.getId().equals(appointmentId)) {
+                // if nahanap niya na yung node na may matching id, ibabalik niya yung details ng ticdket
                 return current.data;
             }
             current = current.next;
         }
         return null; 
     }
-    // Iterates through every node sequentially to display history logs
+    // Iiiterate niya sa linked list para i-display yung repair logs sa console once iclick mo yung "Export Log" button sa GUI
     public void traverse() {
         Node current = head;
         System.out.println("\n--- Linked List Repair Logs ---");
@@ -77,6 +91,7 @@ public class CustomLinkedList {
         }
     }
 
+    // Returns the total number of nodes in the linked list
     public int getSize() {
         int count = 0;
         Node current = head;
