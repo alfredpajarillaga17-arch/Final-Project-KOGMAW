@@ -21,13 +21,7 @@ public class TracePacketRunner {
         list.insert(app1);
         System.out.println("Final State: Head points to " + list.getHead().data.getId());
 
-        // 2. Stack Push Trace
-        System.out.println("\n--- 2. STACK PUSH TRACE ---");
-        CustomStack stack = new CustomStack();
-        stack.push(app1);
-        System.out.println("Initial State: Top is " + stack.peek().getId() + ", Size: " + stack.size());
-        stack.push(app2);
-        System.out.println("Final State: Top is now " + stack.peek().getId() + ", Size: " + stack.size());
+        //2. QUEUE TODO
 
         // 3. BST Insertion Trace
         System.out.println("\n--- 3. BST INSERTION TRACE ---");
