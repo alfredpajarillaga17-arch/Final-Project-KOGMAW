@@ -77,7 +77,6 @@
                         <FlowPane hgap="8" vgap="8" styleClass="tool-row">
                             <children>
                                 <Button text="Process Next" onAction="#handleProcessNextTicket" styleClass="admin-action-button"/>
-                                <Button text="Undo Last" onAction="#handleUndoLastEntry" styleClass="admin-action-button"/>
                                 <Button text="Map BFS" onAction="#handleCheckWorkflowSteps" styleClass="admin-action-button"/>
                                 <Button text="Map DFS" onAction="#handleCheckWorkflowStepsDFS" styleClass="admin-action-button"/>
                                 <Button text="Sort (Date)" onAction="#handleSortByDate" styleClass="admin-action-button"/>
