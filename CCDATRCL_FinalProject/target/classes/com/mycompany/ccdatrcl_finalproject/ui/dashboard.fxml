@@ -83,6 +83,7 @@
                                 <Button text="Sort (Date)" onAction="#handleSortByDate" styleClass="admin-action-button"/>
                                 <Button text="Sort (Name)" onAction="#handleSortByName" styleClass="admin-action-button"/>
                                 <Button text="Export Log" onAction="#handleExportHistoryLog" styleClass="admin-action-button"/>
+                                <Button text="Refresh" onAction="#handleRefreshTable" styleClass="admin-action-button"/>
                             </children>
                         </FlowPane>
                     </children>
