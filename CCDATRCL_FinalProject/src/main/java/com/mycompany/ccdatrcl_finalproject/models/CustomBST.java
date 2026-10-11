@@ -1,19 +1,22 @@
 package com.mycompany.ccdatrcl_finalproject.models;
 
 public class CustomBST {
-    private BSTNode root; // root ng tree
+    private BSTNode root; // root ng tree with left and right and appointment data
 
     public CustomBST() {
-        this.root = null; // Walang laman na binary tree, no nodes no nothing, nada, wala na.
+        this.root = null; // Walang laman na binary tree, no nodes no nothing, nada, wala na. Ito yung binary tree mismo
     }
 
     // ==========================================================
     // INSERT
     // ==========================================================
 
-    // PUBLIC METHOD PARA MA CALL SA MAIN AND MADADALA RIN DITO YUNG INSERTED DATA.
+    // public method na cina-call sa main
     public void insert(Appointment appointment) {
         root = insert(root, appointment);
+        //calls the private insert method, and it basically turns the first node into root
+        // and then when a new node is inserted that new node's value gets compared
+        //to the current node which is the root, if its small it goes to the left and if its bigger it goes to the right
     }
 
     /*
@@ -22,16 +25,15 @@ public class CustomBST {
      */
     private BSTNode insert(BSTNode node, Appointment appointment) {
         // BASE CASE NG TREE AWIOFJHSAIOFIOAF
-
         if (node == null)
-            return new BSTNode(appointment); //
+            return new BSTNode(appointment); //if node is null it returns the appointment data so it can become the root
 
-        // Gets the appointment ID tapos compares it to the current appoint ID in the
-        // node.
+        // Gets the appointment ID of the new node and compares it to the current node's ID
+        // and using the if statements below it gets assigned to left or right depending on the value
         int apt = appointment.getId().compareTo(node.data.getId());
 
-        // IF APPOINTMENT ID IS LESS THAN 0 PUPUNTA SA LEFT IF MORE THAN 0 PUPUNTA SA
-        // RIGHT
+        // IF APPOINTMENT ID IS LESS THAN 0 PUPUNTA SA LEFT IF MORE THAN 0 PUPUNTA SA RIGHT
+        // tapos yung mga new appointment na nailagay magiging root nila is yung values ng left or right depende sa new id
         if (apt < 0) {
             node.left = insert(node.left, appointment);
         } else if (apt > 0) {
