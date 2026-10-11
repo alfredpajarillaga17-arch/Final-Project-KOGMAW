@@ -472,6 +472,13 @@ public class DashboardController {
         recordsTable.setItems(tableData);
     }
 
+    @FXML
+    private void handleRefreshTable() {
+        refreshTableData(); // Call the method that populates the table with current data
+        recordsTable.refresh();
+        System.out.println("Dashboard table manually refreshed.");
+    }
+
     private void restrictPhaseTransitions(String currentPhase) {
         if (updatePhaseCombo == null)
             return;
