@@ -11,7 +11,6 @@ public class DataManager {
     private final CustomBST searchTree;
     private final CustomHashTable instantCache;
     private final CustomQueue intakeQueue;
-    private final CustomStack undoStack;
     private final CustomGraph workflowGraph;
     private final CustomLinkedList historyLog;
 
@@ -21,7 +20,6 @@ public class DataManager {
         this.searchTree = new CustomBST();
         this.instantCache = new CustomHashTable(128); 
         this.intakeQueue = new CustomQueue();
-        this.undoStack = new CustomStack();
         this.workflowGraph = new CustomGraph();
         this.historyLog = new CustomLinkedList();
 
@@ -67,9 +65,6 @@ public class DataManager {
     }
     public CustomQueue getIntakeQueue() { 
         return intakeQueue; 
-    }
-    public CustomStack getUndoStack() { 
-        return undoStack; 
     }
     public CustomGraph getWorkflowGraph() { 
         return workflowGraph; 
