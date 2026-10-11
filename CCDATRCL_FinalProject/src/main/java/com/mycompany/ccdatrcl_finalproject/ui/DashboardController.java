@@ -32,37 +32,62 @@ import javafx.stage.Stage;
 
 public class DashboardController {
 
-    @FXML private VBox dashboardView;
-    @FXML private VBox createApptView;
-    @FXML private VBox searchView;
-    @FXML private TextField contactNumberField; // New field for contact number
-    @FXML private TextField customerNameField;
-    @FXML private ComboBox<String> deviceCombo;
-    @FXML private TextField brandField;
-    @FXML private TextField modelField;
-    @FXML private TextField issueField;
-    @FXML private ComboBox<String> phaseCombo;
+    @FXML
+    private VBox dashboardView;
+    @FXML
+    private VBox createApptView;
+    @FXML
+    private VBox searchView;
+    @FXML
+    private TextField contactNumberField; // New field for contact number
+    @FXML
+    private TextField customerNameField;
+    @FXML
+    private ComboBox<String> deviceCombo;
+    @FXML
+    private TextField brandField;
+    @FXML
+    private TextField modelField;
+    @FXML
+    private TextField issueField;
+    @FXML
+    private ComboBox<String> phaseCombo;
 
-    @FXML private TextField searchIdField;
-    @FXML private ComboBox<String> updatePhaseCombo; 
-    
-    @FXML private Label searchResultName;
-    @FXML private Label searchResultDevice;
-    @FXML private Label searchResultIssue;
+    @FXML
+    private TextField searchIdField;
+    @FXML
+    private ComboBox<String> updatePhaseCombo;
+
+    @FXML
+    private Label searchResultName;
+    @FXML
+    private Label searchResultDevice;
+    @FXML
+    private Label searchResultIssue;
 
     private Appointment activeSearchedTicket = null;
 
     // Table setup using the Appointment model
-    @FXML private TableView<Appointment> recordsTable; 
-    @FXML private TableColumn<Appointment, String> colId;
-    @FXML private TableColumn<Appointment, String> colName;
-    @FXML private TableColumn<Appointment, String> colContactNumber;
-    @FXML private TableColumn<Appointment, String> colDevice;
-    @FXML private TableColumn<Appointment, String> colBrand;
-    @FXML private TableColumn<Appointment, String> colModel;
-    @FXML private TableColumn<Appointment, String> colIssue;
-    @FXML private TableColumn<Appointment, String> colPhase;
-    @FXML private TableColumn<Appointment, String> colDate;
+    @FXML
+    private TableView<Appointment> recordsTable;
+    @FXML
+    private TableColumn<Appointment, String> colId;
+    @FXML
+    private TableColumn<Appointment, String> colName;
+    @FXML
+    private TableColumn<Appointment, String> colContactNumber;
+    @FXML
+    private TableColumn<Appointment, String> colDevice;
+    @FXML
+    private TableColumn<Appointment, String> colBrand;
+    @FXML
+    private TableColumn<Appointment, String> colModel;
+    @FXML
+    private TableColumn<Appointment, String> colIssue;
+    @FXML
+    private TableColumn<Appointment, String> colPhase;
+    @FXML
+    private TableColumn<Appointment, String> colDate;
 
     private DataManager dataManager;
 
@@ -74,10 +99,9 @@ public class DashboardController {
         deviceCombo.getSelectionModel().selectFirst();
 
         phaseCombo.getItems().addAll(
-            "Initial Diagnostic", "Disassembly", "Part Ordering", "Cleaning", 
-            "Component Swap", "Reassembly", "Firmware Flash", "Stress Test", 
-            "Final QA", "Ready for Pickup"
-        );
+                "Initial Diagnostic", "Disassembly", "Part Ordering", "Cleaning",
+                "Component Swap", "Reassembly", "Firmware Flash", "Stress Test",
+                "Final QA", "Ready for Pickup");
         phaseCombo.getSelectionModel().selectFirst();
 
         if (updatePhaseCombo != null) {
@@ -95,11 +119,11 @@ public class DashboardController {
         colDate.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
 
         // Fetch existing records from database
-        com.mycompany.ccdatrcl_finalproject.models.CustomLinkedList dbRecords = 
-            DatabaseConnection.fetchAllAppointments();
-        
+        com.mycompany.ccdatrcl_finalproject.models.CustomLinkedList dbRecords = DatabaseConnection
+                .fetchAllAppointments();
+
         com.mycompany.ccdatrcl_finalproject.models.CustomLinkedList.Node current = dbRecords.getHead();
-        
+
         while (current != null) {
             Appointment appt = current.data;
             dataManager.getInstantCache().put(appt.getId(), appt);
@@ -112,7 +136,7 @@ public class DashboardController {
 
         showDashboardView();
     }
-    
+
     @FXML
     private void showDashboardView() {
         dashboardView.setVisible(true);
@@ -144,7 +168,7 @@ public class DashboardController {
     @FXML
     private void handleLogout(ActionEvent event) {
         try {
-  
+
             App.setRoot("/com/mycompany/ccdatrcl_finalproject/ui/landing");
         } catch (IOException e) {
             e.printStackTrace();
@@ -180,7 +204,8 @@ public class DashboardController {
         String phase = phaseCombo.getValue();
 
         // Include contactNumber in validation check
-        if (customerName.isEmpty() || contactNumber.isEmpty() || brand.isEmpty() || model.isEmpty() || issue.isEmpty()) {
+        if (customerName.isEmpty() || contactNumber.isEmpty() || brand.isEmpty() || model.isEmpty()
+                || issue.isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Validation Error", "Please fill in all text fields.");
             return;
         }
@@ -189,11 +214,10 @@ public class DashboardController {
         String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         Appointment newAppointment = new Appointment(
-            newId, customerName, contactNumber, device, brand, model, issue, currentDate, phase
-        );
+                newId, customerName, contactNumber, device, brand, model, issue, currentDate, phase);
 
         boolean isSavedToDb = DatabaseConnection.insertAppointment(newAppointment);
-        
+
         if (!isSavedToDb) {
             showAlert(Alert.AlertType.ERROR, "Database Error", "Failed to save the appointment to XAMPP database.");
             return;
@@ -219,9 +243,17 @@ public class DashboardController {
     }
 
     @FXML
+
+    /*
+     * So dito po babagsak yung mga sinearch and ito po yung mag ooutput ng mga
+     * sinearch na ticket.
+     * Like if null or wala sa database, mag ra-run po yung else block.
+     * Pero if meron po, mag ooutput po yung if block.
+     */
+
     private void handleSearch(ActionEvent event) {
         String searchId = searchIdField.getText().trim();
-        
+
         if (searchId.isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Input Error", "Please enter a Ticket ID.");
             return;
@@ -230,10 +262,15 @@ public class DashboardController {
         activeSearchedTicket = dataManager.getInstantCache().get(searchId.toUpperCase());
 
         if (activeSearchedTicket != null) {
-            if (searchIdField != null) searchIdField.setText(activeSearchedTicket.getId());
-            if (searchResultName != null) searchResultName.setText("Name: " + activeSearchedTicket.getCustomerName());
-            if (searchResultDevice != null) searchResultDevice.setText("Device: " + activeSearchedTicket.getBrand() + " " + activeSearchedTicket.getModel());
-            if (searchResultIssue != null) searchResultIssue.setText("Issue: " + activeSearchedTicket.getReportedIssue());
+            if (searchIdField != null)
+                searchIdField.setText(activeSearchedTicket.getId());
+            if (searchResultName != null)
+                searchResultName.setText("Name: " + activeSearchedTicket.getCustomerName());
+            if (searchResultDevice != null)
+                searchResultDevice
+                        .setText("Device: " + activeSearchedTicket.getBrand() + " " + activeSearchedTicket.getModel());
+            if (searchResultIssue != null)
+                searchResultIssue.setText("Issue: " + activeSearchedTicket.getReportedIssue());
 
             restrictPhaseTransitions(activeSearchedTicket.getAssessmentPhase());
             showAlert(Alert.AlertType.INFORMATION, "Found", "Ticket loaded successfully.");
@@ -259,11 +296,11 @@ public class DashboardController {
         boolean dbSuccess = DatabaseConnection.updateAppointmentPhase(activeSearchedTicket.getId(), newPhase);
 
         if (dbSuccess) {
-            activeSearchedTicket.setAssessmentPhase(newPhase); 
-            
-            refreshTableData(); 
-            restrictPhaseTransitions(newPhase); 
-            
+            activeSearchedTicket.setAssessmentPhase(newPhase);
+
+            refreshTableData();
+            restrictPhaseTransitions(newPhase);
+
             showAlert(Alert.AlertType.INFORMATION, "Success", "Ticket phase updated successfully to: " + newPhase);
         } else {
             showAlert(Alert.AlertType.ERROR, "Database Error", "Failed to update assessment phase in the database.");
@@ -274,23 +311,29 @@ public class DashboardController {
     private void handleProcessNextTicket(ActionEvent event) {
         // 1. Pull the next ticket from the queue
         Appointment nextTicket = dataManager.getIntakeQueue().dequeue();
-        
+
         if (nextTicket != null) {
             // 2. Set this ticket as the active ticket so handleUpdatePhase() can modify it
             activeSearchedTicket = nextTicket;
 
             // 3. Automatically populate the ticket details into the Search/Update UI labels
-            if (searchIdField != null) searchIdField.setText(nextTicket.getId());
-            if (searchResultName != null) searchResultName.setText("Name: " + nextTicket.getCustomerName());
-            if (searchResultDevice != null) searchResultDevice.setText("Device: " + nextTicket.getBrand() + " " + nextTicket.getModel());
-            if (searchResultIssue != null) searchResultIssue.setText("Issue: " + nextTicket.getReportedIssue());
-            if (updatePhaseCombo != null) updatePhaseCombo.setValue(nextTicket.getAssessmentPhase());
+            if (searchIdField != null)
+                searchIdField.setText(nextTicket.getId());
+            if (searchResultName != null)
+                searchResultName.setText("Name: " + nextTicket.getCustomerName());
+            if (searchResultDevice != null)
+                searchResultDevice.setText("Device: " + nextTicket.getBrand() + " " + nextTicket.getModel());
+            if (searchResultIssue != null)
+                searchResultIssue.setText("Issue: " + nextTicket.getReportedIssue());
+            if (updatePhaseCombo != null)
+                updatePhaseCombo.setValue(nextTicket.getAssessmentPhase());
 
             // 4. Automatically switch the screen to the Search View
             showSearchView();
 
-            showAlert(Alert.AlertType.INFORMATION, "Workbench Status", 
-                "Now repairing: " + nextTicket.getId() + "\nTicket details have been loaded so you can update the phase.");
+            showAlert(Alert.AlertType.INFORMATION, "Workbench Status",
+                    "Now repairing: " + nextTicket.getId()
+                            + "\nTicket details have been loaded so you can update the phase.");
         } else {
             showAlert(Alert.AlertType.INFORMATION, "Queue Empty", "No pending tickets in the intake queue.");
         }
@@ -305,7 +348,8 @@ public class DashboardController {
             dataManager.getSearchTree().delete(targetId);
             dataManager.getHistoryLog().delete(targetId);
             refreshTableData();
-            showAlert(Alert.AlertType.INFORMATION, "Undo Successful", "Removed accidental ticket " + targetId + " from the system.");
+            showAlert(Alert.AlertType.INFORMATION, "Undo Successful",
+                    "Removed accidental ticket " + targetId + " from the system.");
         } else {
             showAlert(Alert.AlertType.WARNING, "Undo Failed", "No recent actions to undo.");
         }
@@ -317,7 +361,8 @@ public class DashboardController {
         if (selectedAppt != null) {
             String currentPhase = selectedAppt.getAssessmentPhase();
             dataManager.getWorkflowGraph().bfs(currentPhase);
-            showAlert(Alert.AlertType.INFORMATION, "Workflow Mapped", "Check console output for BFS traversal starting from: " + currentPhase);
+            showAlert(Alert.AlertType.INFORMATION, "Workflow Mapped",
+                    "Check console output for BFS traversal starting from: " + currentPhase);
         } else {
             showAlert(Alert.AlertType.WARNING, "Selection Error", "Please select a ticket from the table first.");
         }
@@ -333,26 +378,30 @@ public class DashboardController {
 
         String targetId = activeSearchedTicket.getId();
 
-        // 1. Delete from Database (Requires the deleteAppointment method in DatabaseConnection)
+        // 1. Delete from Database (Requires the deleteAppointment method in
+        // DatabaseConnection)
         boolean dbSuccess = DatabaseConnection.deleteAppointment(targetId);
-        
+
         if (dbSuccess) {
             // 2. Delete from local Data Structures
             dataManager.getInstantCache().remove(targetId);
             dataManager.getSearchTree().delete(targetId);
             dataManager.getHistoryLog().delete(targetId);
             dataManager.getPriorityQueue().removeById(targetId);
-            
+
             // 3. Clear the search UI and reset the active ticket
-            if (searchResultName != null) searchResultName.setText("Name: ");
-            if (searchResultDevice != null) searchResultDevice.setText("Device: ");
-            if (searchResultIssue != null) searchResultIssue.setText("Issue: ");
+            if (searchResultName != null)
+                searchResultName.setText("Name: ");
+            if (searchResultDevice != null)
+                searchResultDevice.setText("Device: ");
+            if (searchResultIssue != null)
+                searchResultIssue.setText("Issue: ");
             searchIdField.clear();
             activeSearchedTicket = null;
-            
+
             // 4. Refresh the main table in the background
             refreshTableData();
-            
+
             showAlert(Alert.AlertType.INFORMATION, "Deleted", "Ticket " + targetId + " was permanently removed.");
         } else {
             showAlert(Alert.AlertType.ERROR, "Database Error", "Could not delete ticket from the database.");
@@ -371,7 +420,8 @@ public class DashboardController {
         if (selectedAppt != null) {
             String currentPhase = selectedAppt.getAssessmentPhase();
             dataManager.getWorkflowGraph().dfs(currentPhase);
-            showAlert(Alert.AlertType.INFORMATION, "Workflow Mapped", "Check console output for DFS traversal starting from: " + currentPhase);
+            showAlert(Alert.AlertType.INFORMATION, "Workflow Mapped",
+                    "Check console output for DFS traversal starting from: " + currentPhase);
         } else {
             showAlert(Alert.AlertType.WARNING, "Selection Error", "Please select a ticket from the table first.");
         }
@@ -380,13 +430,15 @@ public class DashboardController {
     @FXML
     private void handleSortByName(ActionEvent event) {
         Appointment[] dataArray = dataManager.getPriorityQueue().getHeapForDisplay();
-        
+
         SortingAlgorithms.SortMetrics metrics = SortingAlgorithms.selectionSortByName(dataArray);
-        System.out.println("Selection Sort by Name Complete. Comparisons: " + metrics.comparisons + " | Movements: " + metrics.movements);
-        
+        System.out.println("Selection Sort by Name Complete. Comparisons: " + metrics.comparisons + " | Movements: "
+                + metrics.movements);
+
         ObservableList<Appointment> sortedList = FXCollections.observableArrayList();
         for (Appointment appt : dataArray) {
-            if (appt != null) sortedList.add(appt);
+            if (appt != null)
+                sortedList.add(appt);
         }
         recordsTable.setItems(sortedList);
     }
@@ -394,40 +446,45 @@ public class DashboardController {
     @FXML
     private void handleSortByDate(ActionEvent event) {
         Appointment[] dataArray = dataManager.getPriorityQueue().getHeapForDisplay();
-        
+
         // Execute Bubble Sort algorithm for date sorting metrics demonstration
         SortingAlgorithms.SortMetrics metrics = SortingAlgorithms.bubbleSort(dataArray);
-        System.out.println("Bubble Sort by Date Complete. Comparisons: " + metrics.comparisons + " | Movements: " + metrics.movements);
-        
+        System.out.println("Bubble Sort by Date Complete. Comparisons: " + metrics.comparisons + " | Movements: "
+                + metrics.movements);
+
         ObservableList<Appointment> sortedList = FXCollections.observableArrayList();
         for (Appointment appt : dataArray) {
-            if (appt != null) sortedList.add(appt);
+            if (appt != null)
+                sortedList.add(appt);
         }
         recordsTable.setItems(sortedList);
     }
 
     private void refreshTableData() {
-        if (recordsTable == null || dataManager == null) return;
+        if (recordsTable == null || dataManager == null)
+            return;
         Appointment[] currentData = dataManager.getPriorityQueue().getHeapForDisplay();
         ObservableList<Appointment> tableData = FXCollections.observableArrayList();
         for (Appointment appt : currentData) {
-            if (appt != null) tableData.add(appt);
+            if (appt != null)
+                tableData.add(appt);
         }
         recordsTable.setItems(tableData);
     }
 
     private void restrictPhaseTransitions(String currentPhase) {
-        if (updatePhaseCombo == null) return;
-        
+        if (updatePhaseCombo == null)
+            return;
+
         updatePhaseCombo.getItems().clear();
         updatePhaseCombo.getItems().add(currentPhase); // Always allow them to stay on the current phase
-        
+
         // Fetch only valid neighbors from the custom graph
         String[] validNextPhases = dataManager.getWorkflowGraph().getAdjacentPhases(currentPhase);
-        for(String phase : validNextPhases) {
+        for (String phase : validNextPhases) {
             updatePhaseCombo.getItems().add(phase);
         }
-        
+
         updatePhaseCombo.setValue(currentPhase);
     }
 
