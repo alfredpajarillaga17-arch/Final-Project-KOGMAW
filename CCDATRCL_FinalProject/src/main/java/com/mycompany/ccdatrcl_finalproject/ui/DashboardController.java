@@ -35,7 +35,7 @@ public class DashboardController {
     @FXML private VBox dashboardView;
     @FXML private VBox createApptView;
     @FXML private VBox searchView;
-    @FXML private TextField contactNumberField; // New field for contact number
+    @FXML private TextField contactNumberField;
     @FXML private TextField customerNameField;
     @FXML private ComboBox<String> deviceCombo;
     @FXML private TextField brandField;
@@ -204,7 +204,6 @@ public class DashboardController {
         dataManager.getPriorityQueue().insert(newAppointment);
         dataManager.getIntakeQueue().enqueue(newAppointment);
         dataManager.getHistoryLog().insert(newAppointment);
-        dataManager.getUndoStack().push(newAppointment);
 
         customerNameField.clear();
         contactNumberField.clear();
@@ -293,20 +292,6 @@ public class DashboardController {
                 "Now repairing: " + nextTicket.getId() + "\nTicket details have been loaded so you can update the phase.");
         } else {
             showAlert(Alert.AlertType.INFORMATION, "Queue Empty", "No pending tickets in the intake queue.");
-        }
-    }
-
-    @FXML
-    private void handleUndoLastEntry(ActionEvent event) {
-        Appointment lastTicket = dataManager.getUndoStack().pop();
-        if (lastTicket != null) {
-            String targetId = lastTicket.getId();
-            DatabaseConnection.deleteAppointment(targetId);
-            dataManager.getHistoryLog().delete(targetId);
-            handleRefreshTable();
-            showAlert(Alert.AlertType.INFORMATION, "Undo Successful", "Removed accidental ticket " + targetId + " from the system.");
-        } else {
-            showAlert(Alert.AlertType.WARNING, "Undo Failed", "No recent actions to undo.");
         }
     }
 
