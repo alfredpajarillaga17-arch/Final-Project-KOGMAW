@@ -52,6 +52,18 @@ public class CustomBST {
         System.out.println("===               BST SORTED OUTPUT           ===");
         System.out.println("==================================================");
         inOrder(root);
+
+        /*    private void inOrder(BSTNode node) {
+
+        // BASE CASE: empty spot, nothing to print, go back up.
+        if (node == null) return;
+
+        inOrder(node.left);            // 1) visit everything smaller first
+        System.out.println(node.data); // 2) print this node (uses Appointment.toString())
+        inOrder(node.right);           // 3) then everything bigger
+    }
+*/
+
     }
 
     // ==========================================================
