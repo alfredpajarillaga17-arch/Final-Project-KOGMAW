@@ -1,18 +1,19 @@
 package com.mycompany.ccdatrcl_finalproject.models;
 
 import java.util.Arrays;
-
+// Think of this class as the Emergency Room Triage or VIP Line for your repairs.
+// It guarantees that the most urgent ticket is always sitting at index 0.
 public class CustomHeap {
     private Appointment[] heap;
     private int size;
     private int capacity;
-
+    // Initializes the empty waiting line
     public CustomHeap(int capacity) {
         this.capacity = capacity;
         this.size = 0;
         this.heap = new Appointment[capacity];
     }
-
+    // Mathematical helpers to navigate the array as if it were a branching tree.
     private int parent(int i) { return (i - 1) / 2; }
     private int leftChild(int i) { return 2 * i + 1; }
     private int rightChild(int i) { return 2 * i + 2; }
@@ -26,7 +27,7 @@ public class CustomHeap {
         // If dates are identical, prioritize by repair phase weight (Higher weight = higher priority)
         return getPhaseWeight(b.getAssessmentPhase()) - getPhaseWeight(a.getAssessmentPhase());
     }
-
+    // Assigns an urgency score to different repair steps
     private int getPhaseWeight(String phase) {
         if (phase == null) return 0;
         switch(phase) {
@@ -43,8 +44,9 @@ public class CustomHeap {
             default: return 0;
         }
     }
-
+    // Adds a new ticket to the back of the line, then lets it "float up" if it's urgent
     public void insert(Appointment appointment) {
+        // If the waiting room is full, double its size automatically
         if (size == capacity) {
             capacity *= 2;
             heap = Arrays.copyOf(heap, capacity);
@@ -52,13 +54,13 @@ public class CustomHeap {
         heap[size] = appointment;
         int current = size;
         size++;
-
+        // Keep swapping with the person in front of you if you are more urgent.
         while (current > 0 && comparePriority(heap[current], heap[parent(current)]) < 0) {
             swap(current, parent(current));
             current = parent(current);
         }
     }
-
+    // Grabs the most urgent ticket from the very front of the line and removes it.
     public Appointment extractUrgent() {
         if (size <= 0) return null;
         if (size == 1) return heap[--size];
@@ -70,7 +72,7 @@ public class CustomHeap {
 
         return root;
     }
-
+    // Forces a less-urgent ticket to sink down the line until order is restored
     private void heapifyDown(int i) {
         int smallest = i;
         int left = leftChild(i);
@@ -114,15 +116,16 @@ public class CustomHeap {
         }
         return true;
     }
-
+    // Simple helper method to swap two tickets in the array
     private void swap(int i, int j) {
         Appointment temp = heap[i];
         heap[i] = heap[j];
         heap[j] = temp;
     }
-
+    // Lets you look at the most urgent ticket without actually removing it.
     public Appointment peekUrgent() { return (size > 0) ? heap[0] : null; }
     public boolean isEmpty() { return size == 0; }
     public int getSize() { return size; }
+    // Returns a clean copy of the line so the dashboard can display it safely.
     public Appointment[] getHeapForDisplay() { return Arrays.copyOf(heap, size); }
 }
