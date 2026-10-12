@@ -4,9 +4,13 @@ import com.mycompany.ccdatrcl_finalproject.models.Appointment;
 import com.mycompany.ccdatrcl_finalproject.utils.DatabaseConnection;
 
 import java.util.Random;
-
+// Think of this class as your Automated Ticket Factory.
+// Its only purpose is to rapidly generate thousands of fake repair tickets 
+// and push them into your MySQL database so your BenchmarkRunner has enough data to test.
 public class DataCreation {
 
+    // These arrays hold predefined dummy data.
+    // The factory will blindly reach into these buckets to pick random details for each ticket.
     private static final String[][] CUSTOMER_POOL = {
         {"Juan Dela Cruz", "09171234567"}, {"Maria Santos", "09229876543"},
         {"Jose Reyes", "09355551212"}, {"Ana Garcia", "09988884321"},
@@ -45,7 +49,7 @@ public class DataCreation {
         "RAM upgrade request",
         "Laptop battery not charging"
     };
-
+    // This method runs a loop that refuses to stop until exactly 5,000 unique tickets are saved.
     public static void populate5000Records() {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         Random rnd = new Random();
@@ -54,20 +58,23 @@ public class DataCreation {
         System.out.println("Starting batch insertion of 5,000 records from DataSeeder...");
 
         while (successCount < 5000) {
+            // Step 1: Generate a random Ticket ID starting with "KGW-" followed by 4 random characters
             StringBuilder sb = new StringBuilder("KGW-");
             for (int j = 0; j < 4; j++) {
                 sb.append(chars.charAt(rnd.nextInt(chars.length())));
             }
             String id = sb.toString();
-
+            
+            // Step 2: Pick random ingredients from our buckets.
             String[] customer = CUSTOMER_POOL[rnd.nextInt(CUSTOMER_POOL.length)];
             String[] gadget = GADGET_CATALOG[rnd.nextInt(GADGET_CATALOG.length)];
             String reportedIssue = REPORTED_ISSUES[rnd.nextInt(REPORTED_ISSUES.length)];
             String appointmentDate = "2026-" + String.format("%02d", rnd.nextInt(9) + 1) + "-" + String.format("%02d", rnd.nextInt(28) + 1);
-            
+            // Step 3: Package all this random information into a brand new Appointment object.
             Appointment app = new Appointment(id, customer[0], customer[1], gadget[0], gadget[1], gadget[2], reportedIssue, appointmentDate, "Pending");
             
-            // If the insert is successful (not a duplicate), increment the counter
+            // Step 4: Quality Control - Send it to the database.
+            // If the database accepts it (meaning it's not an accidental duplicate ID), we count it as a success.
             if (DatabaseConnection.insertAppointment(app)) {
                 successCount++;
                 
