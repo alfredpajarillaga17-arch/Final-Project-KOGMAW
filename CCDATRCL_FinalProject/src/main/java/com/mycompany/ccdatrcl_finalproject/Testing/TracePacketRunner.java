@@ -22,13 +22,14 @@ public class TracePacketRunner {
         list.insert(app1);
         System.out.println("Final State: Head points to " + list.getHead().data.getId());
 
-        //2. Stack Push Trace 
-        System.out.println("\n--- 2. STACK PUSH TRACE ---");
-        CustomStack stack = new CustomStack();
-        stack.push(app1);
-        System.out.println("Initial State: Top is " + stack.peek().getId() + ", Size: " + stack.size());
-        stack.push(app2);
-        System.out.println("Final State: Top is now " + stack.peek().getId() + ", Size: " + stack.size()); // Proves the top updates to the newest item
+        // 2. Queue Enqueue Trace 
+        System.out.println("\n--- 2. QUEUE ENQUEUE TRACE ---");
+        CustomQueue queue = new CustomQueue();
+        queue.enqueue(app1);
+        System.out.println("Initial State: Front is " + queue.peek().getId() + ", Size: " + queue.size());
+        queue.enqueue(app2);
+        // Proves that unlike a stack, the front of a queue stays the same (FIFO) when new items arrive
+        System.out.println("Final State: Front is still " + queue.peek().getId() + " (FIFO order), Size: " + queue.size());
         
         // 3. BST Insertion Trace
         System.out.println("\n--- 3. BST INSERTION TRACE ---");
