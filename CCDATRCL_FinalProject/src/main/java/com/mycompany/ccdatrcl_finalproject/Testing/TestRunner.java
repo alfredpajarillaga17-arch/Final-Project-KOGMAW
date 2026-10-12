@@ -1,11 +1,12 @@
 package com.mycompany.ccdatrcl_finalproject.Testing;
 
 import com.mycompany.ccdatrcl_finalproject.models.*;
-
+// Think of this class as the Quality Assurance (QA) Inspector.
+// It runs automated mini-tests on all your data structures to prove they work perfectly.
 public class TestRunner {
     public static void main(String[] args) {
         System.out.println("=== TEMPLATE G: TEST EXECUTION ===");
-
+        // Creating three fake tickets to play with during the tests
         Appointment app1 = new Appointment("KGW-001", "Customer A", "Contact A", "Phone", "BrandX", "ModelY", "Screen", "2026-10-10", "Intake");
         Appointment app2 = new Appointment("KGW-002", "Customer B", "Contact B", "Laptop", "BrandZ", "ModelW", "Battery", "2026-10-11", "Diagnostics");
         Appointment urgentApp = new Appointment("KGW-003", "Customer C", "Contact C", "Tablet", "BrandA", "ModelB", "Port", "2026-10-01", "Urgent"); // Earliest date
