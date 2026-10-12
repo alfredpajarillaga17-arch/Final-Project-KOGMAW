@@ -1,9 +1,11 @@
 package com.mycompany.ccdatrcl_finalproject.utils;
 
 import com.mycompany.ccdatrcl_finalproject.models.*;
-
+// USED IN: DashboardController or TestRunner
 public class DataManager {
-    // The single instance of this class
+    // The single instance of this class, ginagaruantee neto na isang instance lang ng DataManager pwede mag-exist at a time
+    // Always needed to be called, to ensure na yung gui and test are looking at the exact same information
+    // Which can be accessed globally as long as they use getInststance()
     private static DataManager instance;
 
     // Core Data Structures
@@ -27,7 +29,8 @@ public class DataManager {
         setupWorkflowGraph();
     }
 
-    // Global access point
+    // Whenever iaaccess yung dashboardcontroller or testrunner they need to call this method
+    // If nag-eexist na yung instance irereturn niya nalang, if wala pang instance gagawa siya 
     public static synchronized DataManager getInstance() {
         if (instance == null) {
             instance = new DataManager();
