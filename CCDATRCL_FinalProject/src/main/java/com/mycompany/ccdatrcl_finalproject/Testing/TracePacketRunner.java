@@ -3,13 +3,14 @@ package com.mycompany.ccdatrcl_finalproject.Testing;
 import com.mycompany.ccdatrcl_finalproject.models.*;
 import com.mycompany.ccdatrcl_finalproject.utils.DataManager;
 import com.mycompany.ccdatrcl_finalproject.utils.SortingAlgorithms;
-
+// Think of this class as an X-Ray Machine for your data structures[cite: 5].
+// It provides a slow-motion replay of exactly how memory changes before and after an operation
 public class TracePacketRunner {
 
     public static void main(String[] args) {
         System.out.println("=== CCDATRCL TEMPLATE H: TRACE PACKET GENERATOR ===\n");
 
-        // Using primary records from 50_primary_records.sql
+        // We create three specific tickets with distinct dates and IDs to watch them move through memory.
         Appointment app1 = new Appointment("KGW-M4X9", "Alfred", "09171234567", "Laptop", "Apple", "MacBook Air M1", "Battery health at 71%", "2026-09-09", "Pending");
         Appointment app2 = new Appointment("KGW-7B2L", "John", "09229876543", "Android Phone", "Xiaomi", "Redmi Note 11", "Volume buttons stuck", "2026-09-29", "Pending");
         Appointment app3 = new Appointment("KGW-9L7X", "Alfred", "09181122334", "Android Phone", "Vivo", "Y20i", "Battery swollen", "2026-09-02", "Pending");
@@ -21,8 +22,14 @@ public class TracePacketRunner {
         list.insert(app1);
         System.out.println("Final State: Head points to " + list.getHead().data.getId());
 
-        //2. QUEUE TODO
-
+        //2. Stack Push Trace 
+        System.out.println("\n--- 2. STACK PUSH TRACE ---");
+        CustomStack stack = new CustomStack();
+        stack.push(app1);
+        System.out.println("Initial State: Top is " + stack.peek().getId() + ", Size: " + stack.size());
+        stack.push(app2);
+        System.out.println("Final State: Top is now " + stack.peek().getId() + ", Size: " + stack.size()); // Proves the top updates to the newest item
+        
         // 3. BST Insertion Trace
         System.out.println("\n--- 3. BST INSERTION TRACE ---");
         CustomBST bst = new CustomBST();
